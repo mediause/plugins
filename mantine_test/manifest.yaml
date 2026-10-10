@@ -1,0 +1,23 @@
+name: mantine_test
+id: plugin.mantine_test
+platform: mantine_test
+version: "1.0.0"
+description: "Mantine UI docs humanizer test plugin"
+
+auth:
+  login_url: "https://mantine.dev/core/package/"
+  login_entries:
+    default: "https://mantine.dev/core/package/"
+  default_account_id: "guest"
+  ready_timeout_ms: 3000
+  handshake_timeout_ms: 3000
+
+shared_libs:
+  - scripts/site.js
+
+commands:
+  test:
+    run:
+      workflow: workflows/test.yaml
+      operation: run
+      params: []

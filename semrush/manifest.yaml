@@ -1,0 +1,356 @@
+name: semrush
+id: plugin.semrush
+platform: semrush
+version: "1.0.0"
+description: "Semrush site plugin"
+
+auth:
+  login_url: "https://sem.3ue.co"
+  login_entries:
+    default: "https://sem.3ue.co"
+  default_account_id: "main"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/semrush.helpers.js
+  - scripts/semrush.site.js
+  - scripts/semrush.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Semrush account health for a logged-in account"
+      params: []
+
+  search:
+    domain:
+      workflow: workflows/search.yaml
+      operation: domain
+      description: "Search a domain from Semrush header search"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: type
+          type: string
+          required: false
+          default: domain
+
+  domain:
+    overview:
+      workflow: workflows/get.yaml
+      operation: overview
+      description: "Get Semrush domain overview metrics"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+        - name: currency
+          type: string
+          required: false
+          default: usd
+    competitors:
+      workflow: workflows/get.yaml
+      operation: competitors
+      description: "Get Semrush competitors overview metrics"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+
+  keyword:
+    overview:
+      workflow: workflows/get.yaml
+      operation: keyword
+      description: "Get Semrush keyword overview metrics"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+    positions:
+      workflow: workflows/get.yaml
+      operation: positions
+      description: "Get Semrush keyword positions overview metrics"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+
+  organic:
+    overview:
+      workflow: workflows/get.yaml
+      operation: organic
+      description: "Get Semrush organic rankings overview metrics"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+        - name: device
+          type: string
+          required: false
+          default: desktop
+        - name: date
+          type: string
+          required: false
+        - name: currency
+          type: string
+          required: false
+          default: usd
+    pages:
+      workflow: workflows/get.yaml
+      operation: organic_pages
+      description: "Get Semrush organic pages list with traffic contribution"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+        - name: limit
+          type: number
+          required: false
+          default: 100
+    positions:
+      workflow: workflows/get.yaml
+      operation: positions_list
+      description: "Get Semrush organic positions list by URL and keyword"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+
+  backlinks:
+    overview:
+      workflow: workflows/get.yaml
+      operation: backlinks
+      description: "Get Semrush backlink overview metrics"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+        - name: currency
+          type: string
+          required: false
+          default: usd
+    domains:
+      workflow: workflows/get.yaml
+      operation: backlinks_domains
+      description: "Get Semrush referring domains list"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 100
+    detail:
+      workflow: workflows/get.yaml
+      operation: backlinks_detail
+      description: "Get Semrush backlinks detail list"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 100
+    new_lost:
+      workflow: workflows/get.yaml
+      operation: backlinks_new_lost
+      description: "Get Semrush new and lost backlinks"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 100
+    anchors:
+      workflow: workflows/get.yaml
+      operation: backlinks_anchors
+      description: "Get Semrush backlinks anchors"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 100
+
+  project:
+    overview:
+      workflow: workflows/get.yaml
+      operation: project
+      description: "Get Semrush project overview metrics"
+      params:
+        - name: project
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+    position_tracking:
+      workflow: workflows/seo.yaml
+      operation: project_position_tracking
+      description: "Get project position tracking metrics"
+      params:
+        - name: project
+          type: string
+          required: true
+    site_audit_overview:
+      workflow: workflows/seo.yaml
+      operation: site_audit_overview
+      description: "Get site audit overview aggregated by severity"
+      params:
+        - name: project
+          type: string
+          required: true
+    site_audit_issues:
+      workflow: workflows/seo.yaml
+      operation: site_audit_issues
+      description: "Get site audit issues aggregated by severity"
+      params:
+        - name: project
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 100
+
+  seo:
+    keyword_gap:
+      workflow: workflows/seo.yaml
+      operation: keyword_gap
+      description: "Get multi-site keyword gap opportunities"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: targets
+          type: array
+          required: false
+          default: []
+        - name: db
+          type: string
+          required: false
+          default: us
+        - name: limit
+          type: number
+          required: false
+          default: 50
+    backlink_gap:
+      workflow: workflows/seo.yaml
+      operation: backlink_gap
+      description: "Get multi-site backlink gap opportunities"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: targets
+          type: array
+          required: false
+          default: []
+        - name: limit
+          type: number
+          required: false
+          default: 50
+    quick_wins:
+      workflow: workflows/seo.yaml
+      operation: quick_wins
+      description: "Get keyword quick-win opportunities"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+        - name: limit
+          type: number
+          required: false
+          default: 30
+        - name: min_position
+          type: number
+          required: false
+          default: 4
+        - name: max_position
+          type: number
+          required: false
+          default: 20
+    position_distribution:
+      workflow: workflows/seo.yaml
+      operation: position_distribution
+      description: "Get ranking position distribution"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+    serp_features_coverage:
+      workflow: workflows/seo.yaml
+      operation: serp_features_coverage
+      description: "Get SERP features coverage"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: db
+          type: string
+          required: false
+          default: us
+    content_recommendations:
+      workflow: workflows/seo.yaml
+      operation: content_recommendations
+      description: "Get page-level content optimization recommendations"
+      params:
+        - name: domain
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 50

@@ -1,0 +1,173 @@
+name: fifa2026
+id: plugin.fifa2026
+platform: fifa2026
+version: "1.0.0"
+description: "FBref player intelligence plugin"
+
+auth:
+  login_url: "https://fbref.com/en/players/"
+  login_entries:
+    default: "https://fbref.com/en/players/"
+  default_account_id: "guest"
+  ready_timeout_ms: 2000
+  handshake_timeout_ms: 2000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/fifa2026.helpers.js
+  - scripts/fifa2026.site.js
+  - scripts/fifa2026.bootstrap.js
+
+commands:
+  search:
+    player:
+      workflow: workflows/search.yaml
+      operation: player
+      description: "Search FBref players by name"
+      params:
+        - name: name
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    team:
+      workflow: workflows/search.yaml
+      operation: team
+      description: "Search World Cup teams by name"
+      params:
+        - name: name
+          type: string
+          required: true
+        - name: url
+          type: string
+          required: false
+          default: "https://fbref.com/en/comps/1/World-Cup-Stats"
+        - name: limit
+          type: number
+          required: false
+          default: 32
+    group:
+      workflow: workflows/search.yaml
+      operation: group
+      description: "Search World Cup groups and list participating countries"
+      params:
+        - name: query
+          type: string
+          required: false
+          description: "Group query, supports letters like a,b,c or country name"
+        - name: url
+          type: string
+          required: false
+          default: "https://fbref.com/en/comps/1/World-Cup-Stats"
+        - name: limit
+          type: number
+          required: false
+          default: 64
+
+  get:
+    player:
+      workflow: workflows/get.yaml
+      operation: player
+      description: "Get FBref player profile details"
+      params:
+        - name: url
+          type: string
+          required: true
+    team:
+      workflow: workflows/get.yaml
+      operation: team
+      description: "Get FBref team details and squad players"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: player_limit
+          type: number
+          required: false
+          default: 30
+    player-stats:
+      workflow: workflows/get.yaml
+      operation: player_stats
+      description: "Get FBref player last matches stats"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 5
+    team-stats:
+      workflow: workflows/get.yaml
+      operation: team_stats
+      description: "Get FBref team recent match stats"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+  compare:
+    teams:
+      workflow: workflows/compare.yaml
+      operation: teams
+      description: "Compare two teams by win rate, ranking, head-to-head, and key players"
+      params:
+        - name: team_a_url
+          type: string
+          required: true
+        - name: team_b_url
+          type: string
+          required: true
+        - name: competition_url
+          type: string
+          required: false
+          default: "https://fbref.com/en/comps/1/World-Cup-Stats"
+        - name: recent_limit
+          type: number
+          required: false
+          default: 10
+        - name: player_limit
+          type: number
+          required: false
+          default: 5
+
+  predict:
+    match:
+      workflow: workflows/predict.yaml
+      operation: match
+      description: "Predict a match with structured probabilities and comparison features"
+      params:
+        - name: home_url
+          type: string
+          required: true
+          description: "squad URL for the home team"
+        - name: away_url
+          type: string
+          required: true
+          description: "squad URL for the away team"
+        - name: competition_url
+          type: string
+          required: false
+          description: "Competition page URL used to locate ranking/group context"
+          default: "https://fbref.com/en/comps/1/World-Cup-Stats"
+        - name: recent_limit
+          type: number
+          required: false
+          description: "How many recent matches to use for form and trend features"
+          default: 10
+        - name: player_limit
+          type: number
+          required: false
+          description: "How many top-impact players to include in squad strength features"
+          default: 5
+        - name: neutral_site
+          type: boolean
+          required: false
+          description: "Set true for neutral venue, false to apply home advantage factor"
+          default: true

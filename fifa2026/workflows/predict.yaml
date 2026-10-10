@@ -1,0 +1,33 @@
+match:
+  steps:
+    - action: navigate
+      url: "{{home_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('capturePredictHome', {
+            home_url: "{{home_url}}",
+            recent_limit: Number("{{recent_limit}}") || 10,
+            player_limit: Number("{{player_limit}}") || 5
+          });
+        })();
+    - action: navigate
+      url: "{{away_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('predictMatchFromWorkflow', {
+            home_url: "{{home_url}}",
+            away_url: "{{away_url}}",
+            competition_url: "{{competition_url}}",
+            recent_limit: Number("{{recent_limit}}") || 10,
+            player_limit: Number("{{player_limit}}") || 5,
+            neutral_site: "{{neutral_site}}"
+          });
+        })();

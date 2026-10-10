@@ -1,0 +1,101 @@
+name: chatgpt
+id: plugin.chatgpt
+platform: chatgpt
+version: "1.0.0"
+description: "ChatGPT site plugin"
+
+auth:
+  login_url: "https://chatgpt.com"
+  login_entries:
+    default: "https://chatgpt.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 2000
+  handshake_timeout_ms: 2000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/chatgpt.helpers.js
+  - scripts/chatgpt.site.js
+  - scripts/chatgpt.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Get ChatGPT account health"
+
+  chat:
+    status:
+      workflow: workflows/chat.yaml
+      operation: status
+      description: "Get ChatGPT page and login status"
+    new:
+      workflow: workflows/chat.yaml
+      operation: new
+      description: "Start a new ChatGPT conversation"
+    send:
+      workflow: workflows/chat.yaml
+      operation: send
+      description: "Send a prompt without waiting for reply"
+      params:
+        - name: prompt
+          type: string
+          required: true
+        - name: new
+          type: boolean
+          required: false
+    ask:
+      workflow: workflows/chat.yaml
+      operation: ask
+      description: "Send a prompt and wait for assistant reply"
+      params:
+        - name: prompt
+          type: string
+          required: true
+        - name: timeout
+          type: number
+          required: false
+        - name: new
+          type: boolean
+          required: false
+    read:
+      workflow: workflows/chat.yaml
+      operation: read
+      description: "Read messages from current conversation"
+      params:
+        - name: markdown
+          type: boolean
+          required: false
+    history:
+      workflow: workflows/chat.yaml
+      operation: history
+      description: "List visible conversation history"
+      params:
+        - name: limit
+          type: number
+          required: false
+    detail:
+      workflow: workflows/chat.yaml
+      operation: detail
+      description: "Open a conversation by id and read messages"
+      params:
+        - name: id
+          type: string
+          required: true
+        - name: markdown
+          type: boolean
+          required: false
+
+  image:
+    generate:
+      workflow: workflows/image.yaml
+      operation: generate
+      description: "Generate images with ChatGPT"
+      params:
+        - name: prompt
+          type: string
+          required: true
+        - name: timeout
+          type: number
+          required: false

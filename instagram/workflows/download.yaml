@@ -1,0 +1,14 @@
+media:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('downloadMedia', {
+            url: "{{url}}"
+          });
+        })();

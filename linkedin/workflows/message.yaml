@@ -1,0 +1,18 @@
+safe_send:
+  steps:
+    - action: navigate
+      url: "{{thread_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('messageSafeSend', {
+            thread_url: "{{thread_url}}",
+            expected_name: "{{expected_name}}",
+            message: "{{message}}",
+            expected_last_text: "{{expected_last_text}}",
+            send: "{{send}}" === "true"
+          });
+        })();

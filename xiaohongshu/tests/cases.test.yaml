@@ -1,0 +1,15 @@
+- id: xiaohongshu_account_health_manifest_case
+  description: "Xiaohongshu plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: xiaohongshu_search_hot_manifest_case
+  description: "Xiaohongshu plugin exposes hot search"
+  capability: search
+  action: hot
+  params: {}
+  expect:
+    success: true

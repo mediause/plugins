@@ -1,0 +1,95 @@
+name: medium
+id: plugin.medium
+platform: medium
+version: "1.0.0"
+description: "Medium site plugin"
+
+auth:
+  login_url: "https://medium.com"
+  login_entries:
+    default: "https://medium.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/medium.helpers.js
+  - scripts/medium.site.js
+  - scripts/medium.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Get Medium plugin account health"
+
+  get:
+    feed:
+      workflow: workflows/get.yaml
+      operation: feed
+      description: "Get Medium feed posts by topic"
+      params:
+        - name: topic
+          type: string
+          required: false
+          default: "technology"
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    tag:
+      workflow: workflows/get.yaml
+      operation: tag
+      description: "Get latest Medium posts by tag via RSS"
+      params:
+        - name: tag
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  search:
+    posts:
+      workflow: workflows/search.yaml
+      operation: posts
+      description: "Search Medium posts"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  read:
+    item:
+      workflow: workflows/read.yaml
+      operation: item
+      description: "Read a Medium article by URL"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: max_length
+          type: number
+          required: false
+          default: 4000
+
+  user:
+    posts:
+      workflow: workflows/user.yaml
+      operation: posts
+      description: "Get a Medium user's post list"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20

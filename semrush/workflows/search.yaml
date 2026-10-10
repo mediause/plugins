@@ -1,0 +1,14 @@
+domain:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/overview/?q={{query}}&searchType={{type}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1') && document.title.toLowerCase().indexOf('domain overview') >= 0"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('searchDomain', {
+            query: "{{query}}"
+          });
+        })();

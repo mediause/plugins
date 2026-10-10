@@ -1,0 +1,16 @@
+stories:
+  steps:
+    - action: navigate
+      url: "https://hn.algolia.com/?q={{query}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('searchStories', {
+            query: "{{query}}",
+            limit: Number("{{limit}}") || 20,
+            sort: "{{sort}}" || "relevance"
+          });
+        })();

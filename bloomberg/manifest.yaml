@@ -1,0 +1,118 @@
+name: bloomberg
+id: plugin.bloomberg
+platform: bloomberg
+version: "1.0.0"
+description: "Bloomberg site plugin"
+
+auth:
+  login_url: "https://www.bloomberg.com"
+  login_entries:
+    default: "https://www.bloomberg.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/bloomberg.helpers.js
+  - scripts/bloomberg.site.js
+  - scripts/bloomberg.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Bloomberg plugin health"
+      params: []
+
+  feeds:
+    list:
+      workflow: workflows/feeds.yaml
+      operation: list
+      description: "List Bloomberg RSS feed aliases"
+      params: []
+
+  get:
+    main:
+      workflow: workflows/get.yaml
+      operation: main
+      description: "Bloomberg homepage top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    markets:
+      workflow: workflows/get.yaml
+      operation: markets
+      description: "Bloomberg Markets top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    economics:
+      workflow: workflows/get.yaml
+      operation: economics
+      description: "Bloomberg Economics top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    industries:
+      workflow: workflows/get.yaml
+      operation: industries
+      description: "Bloomberg Industries top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    tech:
+      workflow: workflows/get.yaml
+      operation: tech
+      description: "Bloomberg Tech top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 1
+    politics:
+      workflow: workflows/get.yaml
+      operation: politics
+      description: "Bloomberg Politics top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    businessweek:
+      workflow: workflows/get.yaml
+      operation: businessweek
+      description: "Bloomberg Businessweek top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    opinions:
+      workflow: workflows/get.yaml
+      operation: opinions
+      description: "Bloomberg Opinion top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+  read:
+    news:
+      workflow: workflows/read.yaml
+      operation: news
+      description: "Read a Bloomberg story and return parsed content"
+      params:
+        - name: link
+          type: string
+          required: true

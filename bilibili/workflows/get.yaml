@@ -1,0 +1,76 @@
+dynamic:
+  steps:
+    - action: navigate
+      url: "https://www.bilibili.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBilibiliSiteBridge.call('getDynamic', {
+            limit: Number("{{limit}}") || 15
+          });
+        })();
+
+hot:
+  steps:
+    - action: navigate
+      url: "https://www.bilibili.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBilibiliSiteBridge.call('getHot', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+ranking:
+  steps:
+    - action: navigate
+      url: "https://www.bilibili.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBilibiliSiteBridge.call('getRanking', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+history:
+  steps:
+    - action: navigate
+      url: "https://www.bilibili.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBilibiliSiteBridge.call('getHistory', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+feed:
+  steps:
+    - action: navigate
+      url: "https://www.bilibili.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBilibiliSiteBridge.call('getFeed', {
+            type: "{{type}}",
+            pages: Number("{{pages}}") || 1,
+            limit: Number("{{limit}}") || 20
+          });
+        })();

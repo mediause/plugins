@@ -1,0 +1,69 @@
+status:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatStatus', {});
+        })();
+
+new:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatNew', {});
+        })();
+
+send:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatSend', {
+            prompt: "{{prompt}}",
+            new: "{{new}}"
+          });
+        })();
+
+ask:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatAsk', {
+            prompt: "{{prompt}}",
+            timeout: Number("{{timeout}}") || 120,
+            new: "{{new}}"
+          });
+        })();
+
+read:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatRead', {
+            markdown: "{{markdown}}"
+          });
+        })();
+
+history:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatHistory', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+detail:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('chatDetail', {
+            id: "{{id}}",
+            markdown: "{{markdown}}"
+          });
+        })();

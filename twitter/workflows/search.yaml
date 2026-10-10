@@ -1,0 +1,39 @@
+posts:
+  steps:
+    - action: navigate
+      url: "https://x.com/explore"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || !!document.querySelector('main') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.searchPosts({
+            query: "{{query}}",
+            filter: "{{filter}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+trending:
+  steps:
+    - action: navigate
+      url: "https://x.com/explore/tabs/trending"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"trend\"]') || !!document.querySelector('main')"
+      timeoutMs: 12000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.searchTrending({
+            limit: Number("{{limit}}") || 20
+          });
+        })();

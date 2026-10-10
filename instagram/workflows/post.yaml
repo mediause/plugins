@@ -1,0 +1,102 @@
+note:
+  steps:
+    - action: navigate
+      url: "https://www.instagram.com/direct/inbox/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('postNote', {
+            content: "{{content}}"
+          });
+        })();
+
+feed:
+  steps:
+    - action: navigate
+      url: "https://www.instagram.com/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('prepareFeedUpload', {});
+        })();
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-opencli-ig-upload-index=\"0\"]')"
+      timeoutMs: 25000
+    - action: upload
+      selector: "[data-opencli-ig-upload-index=\"0\"]"
+      files:
+        - "{{media}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('textarea, [contenteditable=\"true\"]') || !!Array.from(document.querySelectorAll('button,[role=\"button\"]')).find(function (el) { var t = String(el.textContent || '').toLowerCase(); return t.indexOf('next') >= 0 || t.indexOf('share') >= 0 || t.indexOf('下一步') >= 0 || t.indexOf('分享') >= 0; })"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('postFeed', {
+            text: "{{text}}"
+          });
+        })();
+
+reel:
+  steps:
+    - action: navigate
+      url: "https://www.instagram.com/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('prepareReelUpload', {});
+        })();
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-opencli-reel-upload-index=\"0\"]')"
+      timeoutMs: 25000
+    - action: upload
+      selector: "[data-opencli-reel-upload-index=\"0\"]"
+      files:
+        - "{{video}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('textarea, [contenteditable=\"true\"]') || !!Array.from(document.querySelectorAll('button,[role=\"button\"]')).find(function (el) { var t = String(el.textContent || '').toLowerCase(); return t.indexOf('next') >= 0 || t.indexOf('share') >= 0 || t.indexOf('下一步') >= 0 || t.indexOf('分享') >= 0; })"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('postReel', {
+            text: "{{text}}"
+          });
+        })();
+
+story:
+  steps:
+    - action: navigate
+      url: "https://www.instagram.com/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('prepareStoryUpload', {});
+        })();
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-opencli-ig-upload-index=\"0\"]')"
+      timeoutMs: 25000
+    - action: upload
+      selector: "[data-opencli-ig-upload-index=\"0\"]"
+      files:
+        - "{{media}}"
+    - action: waitforfunction
+      expression: "!!Array.from(document.querySelectorAll('button,[role=\"button\"]')).find(function (el) { var t = String(el.textContent || '').toLowerCase(); return t.indexOf('your story') >= 0 || t.indexOf('add to story') >= 0 || t.indexOf('你的快拍') >= 0 || t.indexOf('分享到快拍') >= 0 || t.indexOf('share') >= 0 || t.indexOf('分享') >= 0; })"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseInstagramSiteBridge.call('postStory', {});
+        })();

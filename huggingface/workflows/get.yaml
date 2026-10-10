@@ -1,0 +1,85 @@
+top:
+  steps:
+    - action: navigate
+      url: "https://huggingface.co"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHuggingfaceSiteBridge.call('getTop', {
+            limit: Number("{{limit}}") || 20,
+            all: "{{all}}" === "true",
+            date: "{{date}}",
+            period: "{{period}}"
+          });
+        })();
+
+models:
+  steps:
+    - action: navigate
+      url: "https://huggingface.co"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHuggingfaceSiteBridge.call('getModels', {
+            sort: "{{sort}}",
+            search: "{{search}}",
+            pipeline: "{{pipeline}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+datasets:
+  steps:
+    - action: navigate
+      url: "https://huggingface.co"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHuggingfaceSiteBridge.call('getDatasets', {
+            sort: "{{sort}}",
+            search: "{{search}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+spaces:
+  steps:
+    - action: navigate
+      url: "https://huggingface.co"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHuggingfaceSiteBridge.call('getSpaces', {
+            sort: "{{sort}}",
+            search: "{{search}}",
+            sdk: "{{sdk}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+paper:
+  steps:
+    - action: navigate
+      url: "https://huggingface.co"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHuggingfaceSiteBridge.call('getPaper', {
+            id: "{{id}}"
+          });
+        })();

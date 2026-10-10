@@ -1,0 +1,259 @@
+name: instagram
+id: plugin.instagram
+platform: instagram
+version: "1.0.0"
+description: "Instagram site plugin"
+
+auth:
+  login_url: "https://www.instagram.com"
+  login_entries:
+    default: "https://www.instagram.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/instagram.helpers.js
+  - scripts/instagram.site.js
+  - scripts/instagram.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Instagram account health"
+      params: []
+
+  search:
+    users:
+      workflow: workflows/search.yaml
+      operation: users
+      description: "Search Instagram users"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+  get:
+    explore:
+      workflow: workflows/get.yaml
+      operation: explore
+      description: "Get Instagram explore posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    saved:
+      workflow: workflows/get.yaml
+      operation: saved
+      description: "Get saved Instagram posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: collection
+          type: string
+          required: false
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Get Instagram profile info"
+      params:
+        - name: username
+          type: string
+          required: true
+    feed:
+      workflow: workflows/user.yaml
+      operation: feed
+      description: "Get recent posts from an Instagram user"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 12
+    followers:
+      workflow: workflows/user.yaml
+      operation: followers
+      description: "List followers of an Instagram user"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    following:
+      workflow: workflows/user.yaml
+      operation: following
+      description: "List following accounts of an Instagram user"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  engage:
+    follow:
+      workflow: workflows/engage.yaml
+      operation: follow
+      description: "Follow an Instagram user"
+      params:
+        - name: username
+          type: string
+          required: true
+    unfollow:
+      workflow: workflows/engage.yaml
+      operation: unfollow
+      description: "Unfollow an Instagram user"
+      params:
+        - name: username
+          type: string
+          required: true
+    like:
+      workflow: workflows/engage.yaml
+      operation: like
+      description: "Like an Instagram post"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: index
+          type: number
+          required: false
+          default: 1
+    unlike:
+      workflow: workflows/engage.yaml
+      operation: unlike
+      description: "Unlike an Instagram post"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: index
+          type: number
+          required: false
+          default: 1
+    save:
+      workflow: workflows/engage.yaml
+      operation: save
+      description: "Save an Instagram post"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: index
+          type: number
+          required: false
+          default: 1
+    unsave:
+      workflow: workflows/engage.yaml
+      operation: unsave
+      description: "Unsave an Instagram post"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: index
+          type: number
+          required: false
+          default: 1
+    comment:
+      workflow: workflows/engage.yaml
+      operation: comment
+      description: "Comment on an Instagram post"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+        - name: index
+          type: number
+          required: false
+          default: 1
+
+  collection:
+    create:
+      workflow: workflows/collection.yaml
+      operation: create
+      description: "Create an Instagram collection"
+      params:
+        - name: name
+          type: string
+          required: true
+    delete:
+      workflow: workflows/collection.yaml
+      operation: delete
+      description: "Delete an Instagram collection"
+      params:
+        - name: target
+          type: string
+          required: true
+
+  post:
+    note:
+      workflow: workflows/post.yaml
+      operation: note
+      description: "Publish an Instagram note"
+      params:
+        - name: content
+          type: string
+          required: true
+    feed:
+      workflow: workflows/post.yaml
+      operation: feed
+      description: "Publish an Instagram feed post"
+      params:
+        - name: media
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: false
+    reel:
+      workflow: workflows/post.yaml
+      operation: reel
+      description: "Publish an Instagram reel"
+      params:
+        - name: video
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: false
+    story:
+      workflow: workflows/post.yaml
+      operation: story
+      description: "Publish an Instagram story"
+      params:
+        - name: media
+          type: string
+          required: true
+
+  download:
+    media:
+      workflow: workflows/download.yaml
+      operation: media
+      description: "Resolve downloadable media links from an Instagram URL"
+      params:
+        - name: url
+          type: string
+          required: true

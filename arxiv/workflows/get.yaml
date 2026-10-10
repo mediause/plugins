@@ -1,0 +1,30 @@
+paper:
+  steps:
+    - action: navigate
+      url: "https://export.arxiv.org/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseArxivSiteBridge.call('getPaper', {
+            id: "{{id}}"
+          });
+        })();
+
+recent:
+  steps:
+    - action: navigate
+      url: "https://export.arxiv.org/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseArxivSiteBridge.call('getRecent', {
+            category: "{{category}}",
+            limit: Number("{{limit}}") || 10
+          });
+        })();

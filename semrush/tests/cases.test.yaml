@@ -1,0 +1,25 @@
+- id: semrush_account_health_manifest_case
+  description: "Semrush plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: semrush_search_domain_manifest_case
+  description: "Semrush plugin exposes domain search"
+  capability: search
+  action: domain
+  params:
+    query: "mediause.dev"
+  expect:
+    success: true
+
+- id: semrush_get_overview_manifest_case
+  description: "Semrush plugin exposes overview read"
+  capability: get
+  action: overview
+  params:
+    domain: "mediause.dev"
+  expect:
+    success: true

@@ -1,0 +1,86 @@
+name: weixin
+id: plugin.weixin
+platform: weixin
+version: "1.0.0"
+description: "WeChat Official Account site plugin"
+
+auth:
+  login_url: "https://mp.weixin.qq.com"
+  login_entries:
+    default: "https://mp.weixin.qq.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/weixin.helpers.js
+  - scripts/weixin.site.js
+  - scripts/weixin.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check WeChat Official Account health"
+      params: []
+
+  search:
+    articles:
+      workflow: workflows/search.yaml
+      operation: articles
+      description: "Search WeChat articles via Sogou Weixin"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+  get:
+    drafts:
+      workflow: workflows/get.yaml
+      operation: drafts
+      description: "List WeChat draft articles"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    article:
+      workflow: workflows/get.yaml
+      operation: article
+      description: "Read a WeChat article by URL"
+      params:
+        - name: url
+          type: string
+          required: true
+
+  post:
+    create-draft:
+      workflow: workflows/post.yaml
+      operation: create_draft
+      description: "Create a WeChat draft article"
+      params:
+        - name: title
+          type: string
+          required: true
+        - name: content
+          type: string
+          required: true
+        - name: author
+          type: string
+          required: false
+        - name: summary
+          type: string
+          required: false
+        - name: cover_image
+          type: string
+          required: false

@@ -1,0 +1,34 @@
+feed:
+  steps:
+    - action: navigate
+      url: "https://x.com/compose/post"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"tweetTextarea_0\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.postFeed({
+            text: "{{text}}"
+          });
+        })();
+
+reply:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.postReply({
+            url: "{{url}}",
+            text: "{{text}}"
+          });
+        })();

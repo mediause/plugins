@@ -1,0 +1,15 @@
+analytics:
+  steps:
+    - action: navigate
+      url: "{{profile_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('postAnalytics', {
+            profile_url: "{{profile_url}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

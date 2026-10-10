@@ -1,0 +1,16 @@
+detail:
+  steps:
+    - action: navigate
+      url: "https://www.dytt8899.com/i/{{id}}.html"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDytt8899E2E.getDetail({
+            id: {{id}}
+          });
+        })();

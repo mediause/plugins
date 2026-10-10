@@ -1,0 +1,17 @@
+news:
+  steps:
+    - action: navigate
+      url: "{{link}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: waitforfunction
+      expression: "!!document.body && (document.body.childElementCount > 0 || String(document.body.innerText || '').length > 0)"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('readNews', {
+            link: "{{link}}"
+          });
+        })();

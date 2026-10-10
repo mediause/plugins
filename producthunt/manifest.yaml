@@ -1,0 +1,78 @@
+name: producthunt
+id: plugin.producthunt
+platform: producthunt
+version: "1.0.0"
+description: "Product Hunt site plugin"
+
+auth:
+  login_url: "https://www.producthunt.com"
+  login_entries:
+    default: "https://www.producthunt.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/producthunt.helpers.js
+  - scripts/producthunt.site.js
+  - scripts/producthunt.bootstrap.js
+
+commands:
+  get:
+    posts:
+      workflow: workflows/get.yaml
+      operation: posts
+      description: "Latest Product Hunt launches"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: category
+          type: string
+          required: false
+    today:
+      workflow: workflows/get.yaml
+      operation: today
+      description: "Today's Product Hunt launches"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    hot:
+      workflow: workflows/get.yaml
+      operation: hot
+      description: "Today's top Product Hunt launches with votes"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    detail:
+      workflow: workflows/get.yaml
+      operation: detail
+      description: "Read detailed Product Hunt product information"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: comments_limit
+          type: number
+          required: false
+          default: 20
+
+  search:
+    browse:
+      workflow: workflows/search.yaml
+      operation: browse
+      description: "Browse Product Hunt category products"
+      params:
+        - name: category
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20

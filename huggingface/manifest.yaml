@@ -1,0 +1,111 @@
+name: huggingface
+id: plugin.huggingface
+platform: huggingface
+version: "1.0.0"
+description: "Hugging Face site plugin"
+
+auth:
+  login_url: "https://huggingface.co"
+  login_entries:
+    default: "https://huggingface.co"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/huggingface.helpers.js
+  - scripts/huggingface.site.js
+  - scripts/huggingface.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Hugging Face plugin health"
+      params: []
+
+  get:
+    top:
+      workflow: workflows/get.yaml
+      operation: top
+      description: "Top upvoted Hugging Face papers"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: all
+          type: boolean
+          required: false
+          default: false
+        - name: date
+          type: string
+          required: false
+        - name: period
+          type: string
+          required: false
+          default: daily
+    models:
+      workflow: workflows/get.yaml
+      operation: models
+      description: "Top Hugging Face models"
+      params:
+        - name: sort
+          type: string
+          required: false
+          default: downloads
+        - name: search
+          type: string
+          required: false
+        - name: pipeline
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    datasets:
+      workflow: workflows/get.yaml
+      operation: datasets
+      description: "Top Hugging Face datasets"
+      params:
+        - name: sort
+          type: string
+          required: false
+          default: downloads
+        - name: search
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    spaces:
+      workflow: workflows/get.yaml
+      operation: spaces
+      description: "Top Hugging Face spaces"
+      params:
+        - name: sort
+          type: string
+          required: false
+          default: likes
+        - name: search
+          type: string
+          required: false
+        - name: sdk
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    paper:
+      workflow: workflows/get.yaml
+      operation: paper
+      description: "Hugging Face paper detail by arXiv id"
+      params:
+        - name: id
+          type: string
+          required: true

@@ -1,0 +1,12 @@
+health:
+  steps:
+    - action: navigate
+      url: "https://civitai.com/"
+    - action: waitforfunction
+      expression: "!!document.querySelector(\"a[href='/models']\") && !!document.querySelector(\"a[href='/images']\")"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseCivitaiSiteBridge.call('accountHealth', {});
+        })();

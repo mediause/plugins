@@ -1,0 +1,27 @@
+- id: douyinv2_account_health_manifest_case
+  description: "DouyinV2 plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: douyinv2_content_videos_manifest_case
+  description: "DouyinV2 plugin exposes creator videos"
+  capability: content
+  action: videos
+  params:
+    limit: 5
+  expect:
+    success: true
+
+- id: douyinv2_publish_manifest_case
+  description: "DouyinV2 plugin exposes publish"
+  capability: content
+  action: publish
+  params:
+    video: demo.mp4
+    title: demo
+    schedule: "2099-01-01T12:00:00+08:00"
+  expect:
+    success: true

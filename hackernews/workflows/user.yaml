@@ -1,0 +1,14 @@
+profile:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/user?id={{username}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('table')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('userProfile', {
+            username: "{{username}}"
+          });
+        })();

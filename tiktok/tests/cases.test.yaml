@@ -1,0 +1,25 @@
+- id: tiktok_search_posts_manifest_case
+  description: "TikTok plugin exposes search posts"
+  capability: search
+  action: posts
+  params:
+    query: "openai"
+  expect:
+    success: true
+
+- id: tiktok_account_health_manifest_case
+  description: "TikTok plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: tiktok_get_explore_manifest_case
+  description: "TikTok plugin exposes get explore"
+  capability: get
+  action: explore
+  params:
+    limit: 5
+  expect:
+    success: true

@@ -1,0 +1,9 @@
+whatsnew:
+  steps:
+    - action: navigate
+      url: "https://www.whats-on-netflix.com/whats-new/"
+    - action: waitforfunction
+      expression: "document.querySelectorAll('.wn-title-card').length > 0"
+      timeoutMs: 6000
+    - action: evaluate
+      script: "window.__mediauseNetflix.searchWhatsNew({search: '{{search}}', type: '{{type}}', genre: '{{genre}}', language: '{{language}}', archive: '{{archive}}', page: {{page}}, limit: {{limit}}})"

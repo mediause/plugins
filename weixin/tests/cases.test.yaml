@@ -1,0 +1,16 @@
+- id: weixin_account_health_manifest_case
+  description: "Weixin plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: weixin_search_articles_manifest_case
+  description: "Weixin plugin exposes article search"
+  capability: search
+  action: articles
+  params:
+    query: "ai"
+  expect:
+    success: true

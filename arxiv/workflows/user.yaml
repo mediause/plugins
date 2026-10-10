@@ -1,0 +1,15 @@
+author:
+  steps:
+    - action: navigate
+      url: "https://export.arxiv.org/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseArxivSiteBridge.call('userPapers', {
+            author: "{{author}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

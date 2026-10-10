@@ -1,0 +1,15 @@
+task:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('manageTask', {
+            task: "{{task}}",
+            note_id: "{{note_id}}"
+          });
+        })();

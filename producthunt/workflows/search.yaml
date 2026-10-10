@@ -1,0 +1,15 @@
+browse:
+  steps:
+    - action: navigate
+      url: "https://www.producthunt.com/categories/{{category}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector(\"a[href^='/products/']\")"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseProducthuntSiteBridge.call('searchBrowse', {
+            category: "{{category}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

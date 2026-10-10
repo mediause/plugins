@@ -1,0 +1,180 @@
+name: tiktok
+id: plugin.tiktok
+platform: tiktok
+version: "1.0.0"
+description: "TikTok site plugin"
+
+auth:
+  login_url: "https://www.tiktok.com/login"
+  login_entries:
+    default: "https://www.tiktok.com/login"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/tiktok.helpers.js
+  - scripts/tiktok.site.js
+  - scripts/tiktok.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check TikTok account health"
+      params: []
+
+  search:
+    posts:
+      workflow: workflows/search.yaml
+      operation: posts
+      description: "Search TikTok videos"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+
+  get:
+    explore:
+      workflow: workflows/get.yaml
+      operation: explore
+      description: "Get trending TikTok videos from explore page"
+      params:
+        - name: limit
+          type: number
+          required: false
+    live:
+      workflow: workflows/get.yaml
+      operation: live
+      description: "Browse live streams on TikTok"
+      params:
+        - name: limit
+          type: number
+          required: false
+    following:
+      workflow: workflows/get.yaml
+      operation: following
+      description: "List accounts you follow on TikTok"
+      params:
+        - name: limit
+          type: number
+          required: false
+    friends:
+      workflow: workflows/get.yaml
+      operation: friends
+      description: "Get TikTok friend suggestions"
+      params:
+        - name: limit
+          type: number
+          required: false
+    notifications:
+      workflow: workflows/get.yaml
+      operation: notifications
+      description: "Get TikTok notifications (likes, comments, mentions, followers)"
+      params:
+        - name: limit
+          type: number
+          required: false
+        - name: type
+          type: string
+          required: false
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Get TikTok user profile info"
+      params:
+        - name: username
+          type: string
+          required: true
+    videos:
+      workflow: workflows/user.yaml
+      operation: videos
+      description: "Get recent videos from a TikTok user"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+
+  creator:
+    videos:
+      workflow: workflows/creator.yaml
+      operation: videos
+      description: "TikTok Studio creator content list (views/likes/comments/saves/shares)"
+      params:
+        - name: limit
+          type: number
+          required: false
+        - name: cursor
+          type: string
+          required: false
+
+  engage:
+    follow:
+      workflow: workflows/engage.yaml
+      operation: follow
+      description: "Follow a TikTok user"
+      params:
+        - name: username
+          type: string
+          required: true
+    unfollow:
+      workflow: workflows/engage.yaml
+      operation: unfollow
+      description: "Unfollow a TikTok user"
+      params:
+        - name: username
+          type: string
+          required: true
+    like:
+      workflow: workflows/engage.yaml
+      operation: like
+      description: "Like a TikTok video"
+      params:
+        - name: url
+          type: string
+          required: true
+    unlike:
+      workflow: workflows/engage.yaml
+      operation: unlike
+      description: "Unlike a TikTok video"
+      params:
+        - name: url
+          type: string
+          required: true
+    save:
+      workflow: workflows/engage.yaml
+      operation: save
+      description: "Add a TikTok video to Favorites"
+      params:
+        - name: url
+          type: string
+          required: true
+    unsave:
+      workflow: workflows/engage.yaml
+      operation: unsave
+      description: "Remove a TikTok video from Favorites"
+      params:
+        - name: url
+          type: string
+          required: true
+    comment:
+      workflow: workflows/engage.yaml
+      operation: comment
+      description: "Comment on a TikTok video"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true

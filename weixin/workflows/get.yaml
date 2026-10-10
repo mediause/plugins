@@ -1,0 +1,33 @@
+drafts:
+  steps:
+    - action: navigate
+      url: "https://mp.weixin.qq.com/cgi-bin/appmsg?action=list_card&type=77&lang=zh_CN"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseWeixin.getDrafts({
+            limit: Number("{{limit}}") || 10
+          });
+        })();
+
+article:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseWeixin.getArticle({
+            url: "{{url}}"
+          });
+        })();

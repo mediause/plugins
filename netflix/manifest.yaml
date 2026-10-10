@@ -1,0 +1,259 @@
+name: netflix
+id: plugin.netflix
+platform: netflix
+version: "1.0.0"
+description: "Netflix Tudum - Behind the streams content platform"
+
+auth:
+  login_url: "https://www.netflix.com/tudum"
+  login_entries:
+    default: "https://www.netflix.com/tudum"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/netflix.bootstrap.js
+  - scripts/netflix.site.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/get.yaml
+      operation: account_health
+      description: "Check Netflix account health status"
+      params: []
+
+  list:
+    home:
+      workflow: workflows/list.yaml
+      operation: home
+      description: "List home page aggregated content"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    shows:
+      workflow: workflows/list.yaml
+      operation: shows
+      description: "List TV shows"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    movies:
+      workflow: workflows/list.yaml
+      operation: movies
+      description: "List movies"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    trending:
+      workflow: workflows/list.yaml
+      operation: trending
+      description: "List trending content and topics"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    top10:
+      workflow: workflows/list.yaml
+      operation: top10
+      description: "List Top 10 rankings by region and type"
+      params:
+        - name: region
+          type: string
+          required: false
+          default: "Global"
+          description: "Region code (Global, US, UK, CA, FR, DE, etc.)"
+        - name: type
+          type: string
+          required: false
+          default: "movies"
+          description: "Content type: movies or tv"
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+    recommend:
+      workflow: workflows/list.yaml
+      operation: recommend
+      description: "List recommended content from What to Watch"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    comingSoon:
+      workflow: workflows/list.yaml
+      operation: comingSoon
+      description: "Get the latest movies, series, and games on Netflix"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    leavingSoon:
+      workflow: workflows/list.yaml
+      operation: leavingSoon
+      description: "Get the movies and shows which will leave after short periods on Netflix"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    kDramas:
+      workflow: workflows/list.yaml
+      operation: kDramas
+      description: "Get K-dramas and K-content from What's on Netflix feed"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    anime:
+      workflow: workflows/list.yaml
+      operation: anime
+      description: "Get anime content from What's on Netflix feed"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    whatToWatch:
+      workflow: workflows/list.yaml
+      operation: whatToWatch
+      description: "Get what to watch content from What's on Netflix feed"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+    podcasts:
+      workflow: workflows/list.yaml
+      operation: podcasts
+      description: "List Netflix podcasts"
+      params:
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+  get:
+    tudum:
+      workflow: workflows/get.yaml
+      operation: tudum
+      description: "Get Netflix Tudum title hub page with hero image, metadata, related articles, videos, cast, and clips"
+      params:
+        - name: slug
+          type: string
+          required: true
+          description: "Title slug (e.g., avatar-the-last-airbender)"
+
+    article:
+      workflow: workflows/get.yaml
+      operation: article
+      description: "Get Netflix Tudum article content with title, body text, and imagery"
+      params:
+        - name: slug
+          type: string
+          required: true
+          description: "Article slug (e.g., avatar-the-last-airbender-season-2)"
+
+  search:
+    whatsnew:
+      workflow: workflows/search.yaml
+      operation: whatsnew
+      description: "Search and filter What's New on Netflix content. Required 'use account netflix --show true' "
+      params:
+        - name: search
+          type: string
+          required: false
+          description: "Search keyword in title or content"
+        - name: type
+          type: string
+          required: false
+          description: "Content type: movie, series, or empty for all"
+        - name: genre
+          type: string
+          required: false
+          description: "Genre keyword (action, drama, comedy, etc.)"
+        - name: language
+          type: string
+          required: false
+          description: "Language: english, french, spanish, portuguese, german, italian, korean, japanese, chinese, mandarin, hindi, arabic, dutch, russian, turkish, polish, thai, vietnamese, or empty for all"
+        - name: archive
+          type: string
+          required: false
+          description: "Time period: all-time or other archive options"
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20

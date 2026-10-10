@@ -1,0 +1,122 @@
+run:
+  steps:
+    # 打开 mantine 组件页
+    - action: navigate
+      url: "https://mantine.dev/core/package/"
+
+    # 等待左侧导航菜单加载
+    - action: waitforfunction
+      expression: "!!document.querySelector('nav a')"
+      timeoutMs: 15000
+
+    # 等待页面稳定
+    - action: waitforloadstate
+      state: networkidle
+      timeoutMs: 10000
+
+    # 点击左侧菜单 Flex
+    - action: scrollintoview
+      selector: "nav a[href='/core/flex/']"
+
+    - action: click
+      selector: "nav a[href='/core/flex/']"
+      humanizePath: jitter
+      humanizeMoveSteps: 10
+
+    # 等待导航到 flex 完成
+    - action: waitforurl
+      url: "/core/flex/"
+      timeoutMs: 10000
+
+    # 滚动右侧内容区（向下）
+    - action: scroll
+      selector: "main"
+      deltaY: 400
+
+    - action: scroll
+      selector: "main"
+      deltaY: 400
+
+    - action: scroll
+      selector: "main"
+      deltaY: 400
+
+    # 回到顶部
+    - action: scroll
+      selector: "main"
+      deltaY: -1200
+
+    # 点击左侧菜单 Input
+    - action: scrollintoview
+      selector: "nav a[href='/core/input/']"
+
+    - action: click
+      selector: "nav a[href='/core/input/']"
+      humanizePath: jitter
+      humanizeMoveSteps: 10
+
+    # 等待导航到 input 完成
+    - action: waitforurl
+      url: "/core/input/"
+      timeoutMs: 10000
+
+    # 滚动右侧内容区（向下）
+    - action: scroll
+      selector: "main"
+      deltaY: 500
+
+    - action: scroll
+      selector: "main"
+      deltaY: 500
+
+    # 回到顶部
+    - action: scroll
+      selector: "main"
+      deltaY: -1000
+
+    # 滚动左侧导航（向下以确保 Button 在视口内）
+    - action: scroll
+      selector: "nav"
+      deltaY: 300
+
+    # 点击左侧菜单 Button
+    - action: scrollintoview
+      selector: "nav a[href='/core/button/']"
+
+    - action: click
+      selector: "nav a[href='/core/button/']"
+      humanizePath: jitter
+      humanizeMoveSteps: 10
+
+    # 等待导航到 button 完成
+    - action: waitforurl
+      url: "/core/button/"
+      timeoutMs: 10000
+
+    # 滚动右侧内容区（向下）
+    - action: scroll
+      selector: "main"
+      deltaY: 450
+
+    - action: scroll
+      selector: "main"
+      deltaY: 450
+
+    - action: scroll
+      selector: "main"
+      deltaY: 450
+
+    # 返回结果
+    - action: evaluate
+      script: |
+        (function () {
+          var h1 = document.querySelector('h1');
+          return {
+            success: true,
+            data: {
+              status: "ok",
+              final_page: h1 ? h1.innerText.trim() : "unknown",
+              url: location.href
+            }
+          };
+        })();

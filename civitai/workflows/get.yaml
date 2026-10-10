@@ -1,0 +1,59 @@
+model:
+  steps:
+    - action: navigate
+      url: "https://civitai.com/models"
+    - action: waitforfunction
+      expression: "!!document.querySelector(\"a[href='/models']\")"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseCivitaiSiteBridge.call('getModel', {
+            id: "{{id}}"
+          });
+        })();
+
+image:
+  steps:
+    - action: navigate
+      url: "https://civitai.com/images/{{id}}"
+    - action: waitforfunction
+      expression: "(function () { var queries = window.__NEXT_DATA__ && window.__NEXT_DATA__.props && window.__NEXT_DATA__.props.pageProps && window.__NEXT_DATA__.props.pageProps.trpcState && window.__NEXT_DATA__.props.pageProps.trpcState.json && window.__NEXT_DATA__.props.pageProps.trpcState.json.queries; if (!Array.isArray(queries)) { return false; } return queries.some(function (q) { var key = q && q.queryKey && q.queryKey[0]; return Array.isArray(key) && key[0] === 'image' && key[1] === 'get'; }); })()"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseCivitaiSiteBridge.call('getImage', {
+            id: "{{id}}"
+          });
+        })();
+
+article:
+  steps:
+    - action: navigate
+      url: "https://civitai.com/articles"
+    - action: waitforfunction
+      expression: "!!document.querySelector(\"a[href='/articles']\") && !!document.querySelector(\"a[href^='/articles/']\")"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseCivitaiSiteBridge.call('getArticle', {
+            id: "{{id}}"
+          });
+        })();
+
+tag:
+  steps:
+    - action: navigate
+      url: "https://civitai.com/images"
+    - action: waitforfunction
+      expression: "!!document.querySelector(\"a[href='/images']\") && !!document.querySelector(\"input[type='search'][placeholder='Search Civitai']\")"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseCivitaiSiteBridge.call('getTag', {
+            name: "{{name}}"
+          });
+        })();

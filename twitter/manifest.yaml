@@ -1,0 +1,318 @@
+name: twitter
+id: plugin.twitter
+platform: twitter
+version: "1.0.0"
+description: "Twitter/X site plugin"
+
+auth:
+  login_url: "https://x.com/i/flow/login"
+  login_entries:
+    default: "https://x.com/i/flow/login"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/twitter.helpers.js
+  - scripts/twitter.site.js
+  - scripts/twitter.extended.js
+  - scripts/twitter.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Twitter/X account health"
+      params: []
+
+  search:
+    posts:
+      workflow: workflows/search.yaml
+      operation: posts
+      description: "Search Twitter/X for tweets"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: filter
+          type: string
+          required: false
+          default: top
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    trending:
+      workflow: workflows/search.yaml
+      operation: trending
+      description: "Twitter/X trending topics"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Fetch a Twitter user profile (bio, stats, etc.)"
+      params:
+        - name: username
+          type: string
+          required: true
+    feed:
+      workflow: workflows/user.yaml
+      operation: feed
+      description: "Fetch a Twitter user's most recent tweets (chronological, excludes pinned)"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    followers:
+      workflow: workflows/user.yaml
+      operation: followers
+      description: "Get accounts following a Twitter/X user"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    following:
+      workflow: workflows/user.yaml
+      operation: following
+      description: "Get accounts a Twitter/X user is following"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    likes:
+      workflow: workflows/user.yaml
+      operation: likes
+      description: "Fetch liked tweets of a Twitter user"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  get:
+    timeline:
+      workflow: workflows/get.yaml
+      operation: timeline
+      description: "Fetch Twitter timeline (for-you or following)"
+      params:
+        - name: type
+          type: string
+          required: false
+          default: for-you
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    bookmarks:
+      workflow: workflows/get.yaml
+      operation: bookmarks
+      description: "Fetch Twitter/X bookmarks"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    notifications:
+      workflow: workflows/get.yaml
+      operation: notifications
+      description: "Get Twitter/X notifications"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  list:
+    feed:
+      workflow: workflows/list.yaml
+      operation: feed
+      description: "Get Twitter/X lists for the logged-in user (owned + subscribed)"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 50
+    tweets:
+      workflow: workflows/list.yaml
+      operation: tweets
+      description: "Fetch tweets from a Twitter/X list timeline"
+      params:
+        - name: list_id
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 50
+    add:
+      workflow: workflows/list.yaml
+      operation: add
+      description: "Add a user to a Twitter/X list you own (no-op if already a member)"
+      params:
+        - name: list_id
+          type: string
+          required: true
+        - name: username
+          type: string
+          required: true
+    remove:
+      workflow: workflows/list.yaml
+      operation: remove
+      description: "Remove a user from a Twitter/X list you own (toggles via UI; no-op if not currently a member)"
+      params:
+        - name: list_id
+          type: string
+          required: true
+        - name: username
+          type: string
+          required: true
+
+  post:
+    feed:
+      workflow: workflows/post.yaml
+      operation: feed
+      description: "Post a new tweet/thread"
+      params:
+        - name: text
+          type: string
+          required: true
+    reply:
+      workflow: workflows/post.yaml
+      operation: reply
+      description: "Reply to a specific tweet, optionally with a local or remote image"
+      params:
+        - name: url
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+
+  engage:
+    like:
+      workflow: workflows/engage.yaml
+      operation: like
+      description: "Like a specific tweet"
+      params:
+        - name: url
+          type: string
+          required: true
+    bookmark:
+      workflow: workflows/engage.yaml
+      operation: bookmark
+      description: "Bookmark a tweet"
+      params:
+        - name: url
+          type: string
+          required: true
+    follow:
+      workflow: workflows/engage.yaml
+      operation: follow
+      description: "Follow a Twitter user"
+      params:
+        - name: username
+          type: string
+          required: true
+    unfollow:
+      workflow: workflows/engage.yaml
+      operation: unfollow
+      description: "Unfollow a Twitter user"
+      params:
+        - name: username
+          type: string
+          required: true
+    unbookmark:
+      workflow: workflows/engage.yaml
+      operation: unbookmark
+      description: "Remove a tweet from bookmarks"
+      params:
+        - name: url
+          type: string
+          required: true
+
+  moderate:
+    delete:
+      workflow: workflows/moderate.yaml
+      operation: delete
+      description: "Delete a specific tweet by URL"
+      params:
+        - name: url
+          type: string
+          required: true
+    hide-reply:
+      workflow: workflows/moderate.yaml
+      operation: hide_reply
+      description: "Hide a reply on your tweet (useful for hiding bot/spam replies)"
+      params:
+        - name: url
+          type: string
+          required: true
+    block:
+      workflow: workflows/moderate.yaml
+      operation: block
+      description: "Block a Twitter user"
+      params:
+        - name: username
+          type: string
+          required: true
+    unblock:
+      workflow: workflows/moderate.yaml
+      operation: unblock
+      description: "Unblock a Twitter user"
+      params:
+        - name: username
+          type: string
+          required: true
+
+  message:
+    accept:
+      workflow: workflows/message.yaml
+      operation: accept
+      description: "Auto-accept DM requests containing specific keywords"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: max
+          type: number
+          required: false
+          default: 20
+    reply:
+      workflow: workflows/message.yaml
+      operation: reply
+      description: "Send a message to recent DM conversations"
+      params:
+        - name: text
+          type: string
+          required: true
+        - name: max
+          type: number
+          required: false
+          default: 20
+        - name: skip_replied
+          type: boolean
+          required: false
+          default: true

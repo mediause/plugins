@@ -1,0 +1,24 @@
+- id: bloomberg_account_health_manifest_case
+  description: "Bloomberg plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: bloomberg_get_main_manifest_case
+  description: "Bloomberg plugin exposes main feed"
+  capability: get
+  action: main
+  params:
+    limit: 2
+  expect:
+    success: true
+
+- id: bloomberg_feeds_list_manifest_case
+  description: "Bloomberg plugin exposes feed aliases"
+  capability: feeds
+  action: list
+  params: {}
+  expect:
+    success: true

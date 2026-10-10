@@ -1,0 +1,70 @@
+feed:
+  steps:
+    - action: navigate
+      url: "https://x.com/i/lists"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.listFeed({
+            limit: Number("{{limit}}") || 50
+          });
+        })();
+
+tweets:
+  steps:
+    - action: navigate
+      url: "https://x.com/i/lists/{{list_id}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.listTweets({
+            list_id: "{{list_id}}",
+            limit: Number("{{limit}}") || 50
+          });
+        })();
+
+add:
+  steps:
+    - action: navigate
+      url: "https://x.com/{{username}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.listAdd({
+            list_id: "{{list_id}}",
+            username: "{{username}}"
+          });
+        })();
+
+remove:
+  steps:
+    - action: navigate
+      url: "https://x.com/{{username}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.listRemove({
+            list_id: "{{list_id}}",
+            username: "{{username}}"
+          });
+        })();

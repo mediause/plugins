@@ -1,0 +1,25 @@
+- id: producthunt_get_posts_manifest_case
+  description: "Product Hunt plugin exposes get posts"
+  capability: get
+  action: posts
+  params: {}
+  expect:
+    success: true
+
+- id: producthunt_search_browse_manifest_case
+  description: "Product Hunt plugin exposes category browse"
+  capability: search
+  action: browse
+  params:
+    category: "developer-tools"
+  expect:
+    success: true
+
+- id: producthunt_get_detail_manifest_case
+  description: "Product Hunt plugin exposes product detail read"
+  capability: get
+  action: detail
+  params:
+    url: "https://www.producthunt.com/products/notion"
+  expect:
+    success: true

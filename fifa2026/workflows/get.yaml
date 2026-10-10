@@ -1,0 +1,62 @@
+player:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('getPlayer', {
+            url: "{{url}}"
+          });
+        })();
+
+player_stats:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('getPlayerStats', {
+            url: "{{url}}",
+            limit: Number("{{limit}}") || 5
+          });
+        })();
+
+team:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('getTeam', {
+            url: "{{url}}",
+            player_limit: Number("{{player_limit}}") || 30
+          });
+        })();
+
+team_stats:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('getTeamStats', {
+            url: "{{url}}",
+            limit: Number("{{limit}}") || 10
+          });
+        })();

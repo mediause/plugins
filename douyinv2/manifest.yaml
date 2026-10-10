@@ -1,0 +1,245 @@
+name: douyinv2
+id: plugin.douyinv2
+platform: douyinv2
+version: "1.0.0"
+description: "Douyin creator site plugin"
+
+auth:
+  login_url: "https://creator.douyin.com"
+  login_entries:
+    default: "https://creator.douyin.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/douyinv2.helpers.js
+  - scripts/douyinv2.site.js
+  - scripts/douyinv2.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "获取账号信息"
+      params: []
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "获取账号信息"
+      params: []
+    videos:
+      workflow: workflows/user.yaml
+      operation: videos
+      description: "获取指定用户的视频列表（含下载地址和热门评论）"
+      params:
+        - name: sec_uid
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: with_comments
+          type: boolean
+          required: false
+          default: true
+        - name: comment_limit
+          type: number
+          required: false
+          default: 10
+
+  content:
+    videos:
+      workflow: workflows/content.yaml
+      operation: videos
+      description: "获取作品列表"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: status
+          type: string
+          required: false
+          default: all
+    drafts:
+      workflow: workflows/content.yaml
+      operation: drafts
+      description: "获取草稿列表"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    draft:
+      workflow: workflows/content.yaml
+      operation: draft
+      description: "上传视频并保存为草稿"
+      params:
+        - name: video
+          type: string
+          required: true
+        - name: title
+          type: string
+          required: true
+        - name: caption
+          type: string
+          required: false
+          default: ""
+        - name: cover
+          type: string
+          required: false
+          default: ""
+        - name: visibility
+          type: string
+          required: false
+          default: public
+    delete:
+      workflow: workflows/content.yaml
+      operation: delete
+      description: "删除作品"
+      params:
+        - name: aweme_id
+          type: string
+          required: true
+    publish:
+      workflow: workflows/content.yaml
+      operation: publish
+      description: "定时发布视频到抖音（必须设置 2h ~ 14天后的发布时间）"
+      params:
+        - name: video
+          type: string
+          required: true
+        - name: title
+          type: string
+          required: true
+        - name: schedule
+          type: string
+          required: true
+        - name: caption
+          type: string
+          required: false
+          default: ""
+        - name: cover
+          type: string
+          required: false
+          default: ""
+        - name: visibility
+          type: string
+          required: false
+          default: public
+        - name: allow_download
+          type: boolean
+          required: false
+          default: false
+        - name: collection
+          type: string
+          required: false
+          default: ""
+        - name: activity
+          type: string
+          required: false
+          default: ""
+        - name: poi_id
+          type: string
+          required: false
+          default: ""
+        - name: poi_name
+          type: string
+          required: false
+          default: ""
+        - name: hotspot
+          type: string
+          required: false
+          default: ""
+        - name: no_safety_check
+          type: boolean
+          required: false
+          default: false
+        - name: sync_toutiao
+          type: boolean
+          required: false
+          default: false
+    update:
+      workflow: workflows/content.yaml
+      operation: update
+      description: "更新视频信息"
+      params:
+        - name: aweme_id
+          type: string
+          required: true
+        - name: reschedule
+          type: string
+          required: false
+          default: ""
+        - name: caption
+          type: string
+          required: false
+          default: ""
+
+  metadata:
+    activities:
+      workflow: workflows/metadata.yaml
+      operation: activities
+      description: "官方活动列表"
+      params: []
+    collections:
+      workflow: workflows/metadata.yaml
+      operation: collections
+      description: "合集列表"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    hashtag:
+      workflow: workflows/metadata.yaml
+      operation: hashtag
+      description: "话题搜索 / AI推荐 / 热点词"
+      params:
+        - name: action
+          type: string
+          required: true
+        - name: keyword
+          type: string
+          required: false
+          default: ""
+        - name: cover
+          type: string
+          required: false
+          default: ""
+        - name: limit
+          type: number
+          required: false
+          default: 10
+    location:
+      workflow: workflows/metadata.yaml
+      operation: location
+      description: "地理位置 POI 搜索"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  insights:
+    stats:
+      workflow: workflows/insights.yaml
+      operation: stats
+      description: "作品数据分析"
+      params:
+        - name: aweme_id
+          type: string
+          required: true

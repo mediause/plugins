@@ -1,0 +1,147 @@
+keyword_gap:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/keywordgap/?q={{domain}}&searchType=domain&db={{db}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getKeywordGap', {
+            domain: "{{domain}}",
+            targets: "{{targets}}",
+            db: "{{db}}",
+            limit: "{{limit}}"
+          });
+        })();
+
+backlink_gap:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/backlinkgap/?q={{domain}}&searchType=domain"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getBacklinkGap', {
+            domain: "{{domain}}",
+            targets: "{{targets}}",
+            limit: "{{limit}}"
+          });
+        })();
+
+quick_wins:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/organic/positions/?db={{db}}&q={{domain}}&searchType=domain"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getQuickWins', {
+            domain: "{{domain}}",
+            db: "{{db}}",
+            limit: "{{limit}}",
+            min_position: "{{min_position}}",
+            max_position: "{{max_position}}"
+          });
+        })();
+
+position_distribution:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/organic/positions/?db={{db}}&q={{domain}}&searchType=domain"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getPositionDistribution', {
+            domain: "{{domain}}",
+            db: "{{db}}"
+          });
+        })();
+
+serp_features_coverage:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/organic/serp-features/?db={{db}}&q={{domain}}&searchType=domain"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getSerpFeaturesCoverage', {
+            domain: "{{domain}}",
+            db: "{{db}}"
+          });
+        })();
+
+site_audit_overview:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/projects/?project={{project}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getSiteAuditOverview', {
+            project: "{{project}}"
+          });
+        })();
+
+site_audit_issues:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/projects/?project={{project}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getSiteAuditIssues', {
+            project: "{{project}}",
+            limit: "{{limit}}"
+          });
+        })();
+
+project_position_tracking:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/projects/?project={{project}}"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getProjectPositionTracking', {
+            project: "{{project}}"
+          });
+        })();
+
+content_recommendations:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/analytics/organic/pages/?q={{domain}}&searchType=domain"
+    - action: waitforfunction
+      expression: "!!document.querySelector('h1')"
+      timeoutMs: 30000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('getContentRecommendations', {
+            domain: "{{domain}}",
+            limit: "{{limit}}"
+          });
+        })();

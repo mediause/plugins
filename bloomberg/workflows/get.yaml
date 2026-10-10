@@ -1,0 +1,119 @@
+main:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getMain', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+markets:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/markets/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getMarkets', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+economics:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/economics/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getEconomics', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+industries:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/industries/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getIndustries', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+tech:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/technology/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getTech', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+politics:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/politics/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getPolitics', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+businessweek:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/businessweek/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getBusinessweek', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();
+
+opinions:
+  steps:
+    - action: navigate
+      url: "https://feeds.bloomberg.com/bview/news.rss"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBloombergSiteBridge.call('getOpinions', {
+            limit: Number("{{limit}}") || 1
+          });
+        })();

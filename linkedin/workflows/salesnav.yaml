@@ -1,0 +1,49 @@
+inbox:
+  steps:
+    - action: navigate
+      url: "https://www.linkedin.com/sales/inbox"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('salesnavInbox', {
+            limit: Number("{{limit}}") || 25,
+            unread_only: "{{unread_only}}" === "true"
+          });
+        })();
+
+message:
+  steps:
+    - action: navigate
+      url: "{{recipient}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('salesnavMessage', {
+            recipient: "{{recipient}}",
+            subject: "{{subject}}",
+            body: "{{body}}",
+            send: "{{send}}" === "true"
+          });
+        })();
+
+thread:
+  steps:
+    - action: navigate
+      url: "{{thread_or_recipient}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('salesnavThread', {
+            thread_or_recipient: "{{thread_or_recipient}}",
+            limit: Number("{{limit}}") || 50
+          });
+        })();

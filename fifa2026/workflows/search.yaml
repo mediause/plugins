@@ -1,0 +1,49 @@
+player:
+  steps:
+    - action: navigate
+      url: "https://fbref.com/en/search/search.fcgi?search={{name}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('searchPlayer', {
+            name: "{{name}}",
+            limit: Number("{{limit}}") || 10
+          });
+        })();
+
+team:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('searchTeam', {
+            name: "{{name}}",
+            url: "{{url}}",
+            limit: Number("{{limit}}") || 32
+          });
+        })();
+
+group:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('searchGroup', {
+            query: "{{query}}",
+            url: "{{url}}",
+            limit: Number("{{limit}}") || 64
+          });
+        })();

@@ -1,0 +1,42 @@
+name: dytt8899_e2e
+id: plugin.dytt8899_e2e
+platform: dytt8899_e2e
+version: "1.0.0"
+description: "DYTT8899 e2e automation plugin"
+
+auth:
+  login_url: "https://www.dytt8899.com/"
+  login_entries:
+    default: "https://www.dytt8899.com/"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/dytt8899.e2e.site.js
+
+commands:
+  search:
+    list:
+      workflow: workflows/search.yaml
+      operation: list
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: page
+          type: number
+          required: false
+        - name: limit
+          type: number
+          required: false
+
+  get:
+    detail:
+      workflow: workflows/get.yaml
+      operation: detail
+      params:
+        - name: id
+          type: string
+          required: true

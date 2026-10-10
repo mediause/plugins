@@ -1,0 +1,33 @@
+news:
+  steps:
+    - action: navigate
+      url: "https://news.google.com/rss/search?q={{keyword}}&hl={{lang}}&gl={{region}}&ceid={{region}}:{{lang}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 10000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseGoogleSiteBridge.call('getNews', {
+            keyword: "{{keyword}}",
+            limit: Number("{{limit}}") || 10,
+            lang: "{{lang}}" || "en",
+            region: "{{region}}" || "US"
+          });
+        })();
+
+trends:
+  steps:
+    - action: navigate
+      url: "https://trends.google.com/trending/rss?geo={{region}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 10000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseGoogleSiteBridge.call('getTrends', {
+            region: "{{region}}" || "US",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

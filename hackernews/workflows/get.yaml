@@ -1,0 +1,89 @@
+top:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/"
+    - action: waitforfunction
+      expression: "!!document.querySelector('tr.athing')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('getTop', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+best:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/best"
+    - action: waitforfunction
+      expression: "!!document.querySelector('tr.athing')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('getBest', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+ask:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/ask"
+    - action: waitforfunction
+      expression: "!!document.querySelector('tr.athing')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('getAsk', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+new:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/newest"
+    - action: waitforfunction
+      expression: "!!document.querySelector('tr.athing')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('getNew', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+show:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/show"
+    - action: waitforfunction
+      expression: "!!document.querySelector('tr.athing')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('getShow', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+jobs:
+  steps:
+    - action: navigate
+      url: "https://news.ycombinator.com/jobs"
+    - action: waitforfunction
+      expression: "!!document.querySelector('tr.athing')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('getJobs', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();

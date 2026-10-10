@@ -1,0 +1,9 @@
+cases:
+  - name: account.health smoke
+    command: instagram account health
+  - name: search.users smoke
+    command: instagram search users --query openai --limit 3
+  - name: user.profile smoke
+    command: instagram user profile --username instagram
+  - name: download.media smoke
+    command: instagram download media --url https://www.instagram.com/p/C7L4J9jS1Qx/

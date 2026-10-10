@@ -1,0 +1,67 @@
+delete:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.moderateDelete({
+            url: "{{url}}"
+          });
+        })();
+
+hide_reply:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.moderateHideReply({
+            url: "{{url}}"
+          });
+        })();
+
+block:
+  steps:
+    - action: navigate
+      url: "https://x.com/{{username}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.moderateBlock({
+            username: "{{username}}"
+          });
+        })();
+
+unblock:
+  steps:
+    - action: navigate
+      url: "https://x.com/{{username}}"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.moderateUnblock({
+            username: "{{username}}"
+          });
+        })();

@@ -1,0 +1,15 @@
+item:
+  steps:
+    - action: navigate
+      url: "https://hacker-news.firebaseio.com/v0/item/{{id}}.json"
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseHackernewsSiteBridge.call('readItem', {
+            id: "{{id}}",
+            limit: Number("{{limit}}") || 25,
+            depth: Number("{{depth}}") || 2,
+            replies: Number("{{replies}}") || 5,
+            max_length: Number("{{max_length}}") || 2000
+          });
+        })();

@@ -1,0 +1,16 @@
+- id: twitter_account_health_manifest_case
+  description: "Twitter plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: twitter_search_posts_manifest_case
+  description: "Twitter plugin exposes post search"
+  capability: search
+  action: posts
+  params:
+    query: "openai"
+  expect:
+    success: true

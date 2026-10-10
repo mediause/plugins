@@ -1,0 +1,32 @@
+teams:
+  steps:
+    - action: navigate
+      url: "{{team_a_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('captureCompareTeamA', {
+            team_a_url: "{{team_a_url}}",
+            recent_limit: Number("{{recent_limit}}") || 10,
+            player_limit: Number("{{player_limit}}") || 5
+          });
+        })();
+    - action: navigate
+      url: "{{team_b_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseFifa2026SiteBridge.call('compareTeamsFromWorkflow', {
+            team_a_url: "{{team_a_url}}",
+            team_b_url: "{{team_b_url}}",
+            competition_url: "{{competition_url}}",
+            recent_limit: Number("{{recent_limit}}") || 10,
+            player_limit: Number("{{player_limit}}") || 5
+          });
+        })();

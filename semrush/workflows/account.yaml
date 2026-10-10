@@ -1,0 +1,12 @@
+health:
+  steps:
+    - action: navigate
+      url: "https://sem.3ue.co/home/"
+    - action: waitforfunction
+      expression: "!!document.querySelector('[role=\"menuitem\"][aria-label=\"My profile\"]') || !!document.querySelector('input[role=\"combobox\"][aria-label=\"Enter your task, website, or keyword\"]') || !!document.querySelector('a[href*=\"/login\"]')"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseSemrushSiteBridge.call('accountHealth', {});
+        })();

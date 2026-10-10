@@ -1,0 +1,16 @@
+favorite:
+  steps:
+    - action: navigate
+      url: "https://www.bilibili.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseBilibiliSiteBridge.call('collectionFavorite', {
+            fid: {{fid}},
+            page: Number("{{page}}") || 1,
+            limit: Number("{{limit}}") || 20
+          });
+        })();

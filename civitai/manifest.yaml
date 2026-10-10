@@ -1,0 +1,182 @@
+name: civitai
+id: plugin.civitai
+platform: civitai
+version: "1.0.0"
+description: "Civitai site plugin"
+
+auth:
+  login_url: "https://civitai.com/"
+  login_entries:
+    default: "https://civitai.com/"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/civitai.helpers.js
+  - scripts/civitai.site.js
+  - scripts/civitai.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Civitai plugin health"
+      params: []
+
+  search:
+    models:
+      workflow: workflows/search.yaml
+      operation: models
+      description: "Search Civitai models"
+      params:
+        - name: query
+          type: string
+          required: false
+        - name: sort
+          type: string
+          required: false
+          default: Most Downloaded
+        - name: period
+          type: string
+          required: false
+          default: AllTime
+        - name: types
+          type: string
+          required: false
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: nsfw
+          type: boolean
+          required: false
+          default: false
+    images:
+      workflow: workflows/search.yaml
+      operation: images
+      description: "Search Civitai images"
+      params:
+        - name: query
+          type: string
+          required: false
+        - name: sort
+          type: string
+          required: false
+          default: Most Reactions
+        - name: period
+          type: string
+          required: false
+          default: AllTime
+        - name: username
+          type: string
+          required: false
+        - name: model_id
+          type: string
+          required: false
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: nsfw
+          type: boolean
+          required: false
+          default: false
+    tags:
+      workflow: workflows/search.yaml
+      operation: tags
+      description: "Search Civitai tags"
+      params:
+        - name: query
+          type: string
+          required: false
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    articles:
+      workflow: workflows/search.yaml
+      operation: articles
+      description: "Search Civitai articles"
+      params:
+        - name: query
+          type: string
+          required: false
+        - name: sort
+          type: string
+          required: false
+          default: Most Bookmarks
+        - name: period
+          type: string
+          required: false
+          default: Month
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  get:
+    model:
+      workflow: workflows/get.yaml
+      operation: model
+      description: "Get Civitai model detail by id"
+      params:
+        - name: id
+          type: string
+          required: true
+    image:
+      workflow: workflows/get.yaml
+      operation: image
+      description: "Get Civitai image detail by id"
+      params:
+        - name: id
+          type: string
+          required: true
+    article:
+      workflow: workflows/get.yaml
+      operation: article
+      description: "Get Civitai article detail by id"
+      params:
+        - name: id
+          type: string
+          required: true
+    tag:
+      workflow: workflows/get.yaml
+      operation: tag
+      description: "Get Civitai tag detail by name"
+      params:
+        - name: name
+          type: string
+          required: true
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Get Civitai creator profile and models"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20

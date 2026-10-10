@@ -1,0 +1,302 @@
+name: xiaohongshu
+id: plugin.xiaohongshu
+platform: xiaohongshu
+version: "1.0.0"
+description: "Xiaohongshu site plugin"
+
+auth:
+  login_url: "https://www.xiaohongshu.com"
+  login_entries:
+    default: "https://www.xiaohongshu.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/xiaohongshu.helpers.js
+  - scripts/xiaohongshu.site.js
+  - scripts/xiaohongshu.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Xiaohongshu account health"
+      params: []
+
+  post:
+    feed:
+      workflow: workflows/post.yaml
+      operation: feed
+      description: "Publish Xiaohongshu content"
+      params:
+        - name: title
+          type: string
+          required: false
+        - name: text
+          type: string
+          required: false
+        - name: media
+          type: string
+          required: false
+        - name: cover
+          type: string
+          required: false
+    repost:
+      workflow: workflows/post.yaml
+      operation: repost
+      description: "Repost a Xiaohongshu note"
+      params:
+        - name: id
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: false
+
+  get:
+    feed:
+      workflow: workflows/get.yaml
+      operation: feed
+      description: "Get Xiaohongshu feed list"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: type
+          type: string
+          required: false
+    detail:
+      workflow: workflows/get.yaml
+      operation: detail
+      description: "Get Xiaohongshu note detail"
+      params:
+        - name: id
+          type: string
+          required: true
+        - name: comments
+          type: boolean
+          required: false
+          default: false
+        - name: xsec_token
+          type: string
+          required: false
+    notif:
+      workflow: workflows/get.yaml
+      operation: notif
+      description: "Get Xiaohongshu notifications"
+      params:
+        - name: type
+          type: string
+          required: false
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Get Xiaohongshu user profile"
+      params:
+        - name: me
+          type: boolean
+          required: false
+          default: false
+        - name: user_id
+          type: string
+          required: false
+    profile-update:
+      workflow: workflows/user.yaml
+      operation: profile_update
+      description: "Update Xiaohongshu user profile"
+      params:
+        - name: bio
+          type: string
+          required: false
+        - name: name
+          type: string
+          required: false
+        - name: avatar
+          type: string
+          required: false
+    feed:
+      workflow: workflows/user.yaml
+      operation: feed
+      description: "Get notes of a Xiaohongshu user"
+      params:
+        - name: user_id
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: xsec_token
+          type: string
+          required: false
+    followers:
+      workflow: workflows/user.yaml
+      operation: followers
+      description: "Get followers of a Xiaohongshu user"
+      params:
+        - name: user_id
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    following:
+      workflow: workflows/user.yaml
+      operation: following
+      description: "Get following of a Xiaohongshu user"
+      params:
+        - name: user_id
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  reply:
+    comment:
+      workflow: workflows/reply.yaml
+      operation: comment
+      description: "Reply to a Xiaohongshu note"
+      params:
+        - name: post_id
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+    sub:
+      workflow: workflows/reply.yaml
+      operation: sub
+      description: "Reply to a Xiaohongshu comment"
+      params:
+        - name: comment_id
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+        - name: post_id
+          type: string
+          required: false
+    message:
+      workflow: workflows/reply.yaml
+      operation: message
+      description: "Send a Xiaohongshu private reply"
+      params:
+        - name: user_id
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+
+  search:
+    text:
+      workflow: workflows/search.yaml
+      operation: text
+      description: "Search Xiaohongshu notes by text"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: page
+          type: number
+          required: false
+          default: 1
+    user:
+      workflow: workflows/search.yaml
+      operation: user
+      description: "Search Xiaohongshu users"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: page
+          type: number
+          required: false
+          default: 1
+    hot:
+      workflow: workflows/search.yaml
+      operation: hot
+      description: "Get Xiaohongshu hot search topics"
+      params: []
+
+  engage:
+    like:
+      workflow: workflows/engage.yaml
+      operation: like
+      description: "Like a Xiaohongshu note"
+      params:
+        - name: id
+          type: string
+          required: true
+    follow:
+      workflow: workflows/engage.yaml
+      operation: follow
+      description: "Follow a Xiaohongshu user"
+      params:
+        - name: user_id
+          type: string
+          required: true
+        - name: undo
+          type: boolean
+          required: false
+          default: false
+    collect:
+      workflow: workflows/engage.yaml
+      operation: collect
+      description: "Collect a Xiaohongshu note"
+      params:
+        - name: id
+          type: string
+          required: true
+        - name: undo
+          type: boolean
+          required: false
+          default: false
+
+  manage:
+    task:
+      workflow: workflows/manage.yaml
+      operation: task
+      description: "Run Xiaohongshu management task"
+      params:
+        - name: task
+          type: string
+          required: false
+        - name: note_id
+          type: string
+          required: false
+
+  trace:
+    last:
+      workflow: workflows/trace.yaml
+      operation: last
+      description: "Get Xiaohongshu last trace snapshot"
+      params: []
+
+  note:
+    boost:
+      workflow: workflows/note.yaml
+      operation: boost
+      description: "Boost a Xiaohongshu note"
+      params:
+        - name: note_id
+          type: string
+          required: true

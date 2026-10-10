@@ -1,0 +1,287 @@
+name: bilibili
+id: plugin.bilibili
+platform: bilibili
+version: "1.0.0"
+description: "Bilibili site plugin"
+
+auth:
+  login_url: "https://www.bilibili.com"
+  login_entries:
+    default: "https://www.bilibili.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 2000
+  handshake_timeout_ms: 2000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/bilibili.helpers.js
+  - scripts/bilibili.site.js
+  - scripts/bilibili.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Bilibili account health"
+      params: []
+
+  search:
+    video:
+      workflow: workflows/search.yaml
+      operation: video
+      description: "Search Bilibili videos"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    user:
+      workflow: workflows/search.yaml
+      operation: user
+      description: "Search Bilibili users"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  get:
+    dynamic:
+      workflow: workflows/get.yaml
+      operation: dynamic
+      description: "Get Bilibili dynamic feed"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 15
+    hot:
+      workflow: workflows/get.yaml
+      operation: hot
+      description: "Get Bilibili hot videos"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    ranking:
+      workflow: workflows/get.yaml
+      operation: ranking
+      description: "Get Bilibili ranking board"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    history:
+      workflow: workflows/get.yaml
+      operation: history
+      description: "Get Bilibili watch history"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    feed:
+      workflow: workflows/get.yaml
+      operation: feed
+      description: "Get Bilibili following timeline dynamics"
+      params:
+        - name: type
+          type: string
+          required: false
+          default: all
+        - name: pages
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  read:
+    feed-detail:
+      workflow: workflows/read.yaml
+      operation: feed_detail
+      description: "Get Bilibili dynamic detail"
+      params:
+        - name: id
+          type: string
+          required: true
+    video:
+      workflow: workflows/read.yaml
+      operation: video
+      description: "Get Bilibili video metadata"
+      params:
+        - name: bvid
+          type: string
+          required: true
+    subtitle:
+      workflow: workflows/read.yaml
+      operation: subtitle
+      description: "Get Bilibili video subtitles"
+      params:
+        - name: bvid
+          type: string
+          required: true
+        - name: lang
+          type: string
+          required: false
+    summary:
+      workflow: workflows/read.yaml
+      operation: summary
+      description: "Get the official Bilibili AI video summary"
+      params:
+        - name: bvid
+          type: string
+          required: true
+    comments:
+      workflow: workflows/read.yaml
+      operation: comments
+      description: "Get Bilibili video comments or replies"
+      params:
+        - name: bvid
+          type: string
+          required: true
+        - name: parent
+          type: number
+          required: false
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    dynamic:
+      workflow: workflows/read.yaml
+      operation: dynamic
+      description: "Get Bilibili dynamic detail"
+      params:
+        - name: id
+          type: string
+          required: true
+
+  user:
+    me:
+      workflow: workflows/user.yaml
+      operation: me
+      description: "Get current Bilibili profile"
+      params: []
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Get a Bilibili user profile"
+      params:
+        - name: uid
+          type: string
+          required: false
+        - name: me
+          type: boolean
+          required: false
+    following:
+      workflow: workflows/user.yaml
+      operation: following
+      description: "Get a Bilibili user's following list"
+      params:
+        - name: uid
+          type: string
+          required: false
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 50
+    videos:
+      workflow: workflows/user.yaml
+      operation: videos
+      description: "Get a Bilibili user's uploaded videos"
+      params:
+        - name: uid
+          type: string
+          required: true
+        - name: order
+          type: string
+          required: false
+          default: pubdate
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    feed:
+      workflow: workflows/user.yaml
+      operation: feed
+      description: "Get a specific Bilibili user's dynamic feed"
+      params:
+        - name: uid
+          type: string
+          required: true
+        - name: type
+          type: string
+          required: false
+          default: all
+        - name: pages
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  collection:
+    favorite:
+      workflow: workflows/collection.yaml
+      operation: favorite
+      description: "Get Bilibili favorite folder items"
+      params:
+        - name: fid
+          type: number
+          required: false
+        - name: page
+          type: number
+          required: false
+          default: 1
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  engage:
+    comment:
+      workflow: workflows/engage.yaml
+      operation: comment
+      description: "Post a Bilibili video comment or reply"
+      params:
+        - name: bvid
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+        - name: parent
+          type: number
+          required: false
+        - name: execute
+          type: boolean
+          required: false

@@ -1,0 +1,12 @@
+health:
+  steps:
+    - action: navigate
+      url: "https://www.linkedin.com/feed/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('accountHealth', {});
+        })();

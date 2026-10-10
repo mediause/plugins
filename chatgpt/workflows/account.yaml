@@ -1,0 +1,7 @@
+health:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('accountHealth', {});
+        })();

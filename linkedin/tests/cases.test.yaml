@@ -1,0 +1,33 @@
+- id: linkedin_account_health_manifest_case
+  description: "LinkedIn plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: linkedin_search_jobs_manifest_case
+  description: "LinkedIn plugin exposes jobs search"
+  capability: search
+  action: jobs
+  params:
+    query: "software engineer"
+  expect:
+    success: true
+
+- id: linkedin_profile_read_manifest_case
+  description: "LinkedIn plugin exposes profile read"
+  capability: profile
+  action: read
+  params: {}
+  expect:
+    success: true
+
+- id: linkedin_salesnav_thread_manifest_case
+  description: "LinkedIn plugin exposes salesnav thread"
+  capability: salesnav
+  action: thread
+  params:
+    thread_or_recipient: "https://www.linkedin.com/sales/inbox"
+  expect:
+    success: true

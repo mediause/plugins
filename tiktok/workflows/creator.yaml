@@ -1,0 +1,15 @@
+videos:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/tiktokstudio/content"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('creatorVideos', {
+            limit: Number("{{limit}}") || 20,
+            cursor: "{{cursor}}" || "0"
+          });
+        })();

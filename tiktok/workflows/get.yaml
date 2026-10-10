@@ -1,0 +1,75 @@
+explore:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/explore"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('getExplore', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+live:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/live"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('getLive', {
+            limit: Number("{{limit}}") || 10
+          });
+        })();
+
+following:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/following"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('getFollowing', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+friends:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/friends"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('getFriends', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+notifications:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/following"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('getNotifications', {
+            limit: Number("{{limit}}") || 15,
+            type: "{{type}}" || "all"
+          });
+        })();

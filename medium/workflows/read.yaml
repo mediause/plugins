@@ -1,0 +1,15 @@
+item:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseMediumSiteBridge.call('readItem', {
+            url: "{{url}}",
+            max_length: Number("{{max_length}}") || 4000
+          });
+        })();

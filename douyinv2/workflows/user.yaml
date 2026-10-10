@@ -1,0 +1,30 @@
+profile:
+  steps:
+    - action: navigate
+      url: "https://creator.douyin.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('userProfile', {});
+        })();
+
+videos:
+  steps:
+    - action: navigate
+      url: "https://www.douyin.com/user/{{sec_uid}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('userVideos', {
+            sec_uid: "{{sec_uid}}",
+            limit: Number("{{limit}}") || 20,
+            with_comments: "{{with_comments}}" !== "false",
+            comment_limit: Number("{{comment_limit}}") || 10
+          });
+        })();

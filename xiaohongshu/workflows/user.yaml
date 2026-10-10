@@ -1,0 +1,81 @@
+profile:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "(document.readyState === 'complete' || document.readyState === 'interactive') && Object.keys(window).some(function (k) { return k.indexOf('webpackChunk') === 0; })"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('userProfile', {
+            me: "{{me}}",
+            user_id: "{{user_id}}"
+          });
+        })();
+
+profile_update:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('userProfileUpdate', {
+            bio: "{{bio}}",
+            name: "{{name}}",
+            avatar: "{{avatar}}"
+          });
+        })();
+
+feed:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "(document.readyState === 'complete' || document.readyState === 'interactive') && Object.keys(window).some(function (k) { return k.indexOf('webpackChunk') === 0; })"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('userFeed', {
+            user_id: "{{user_id}}",
+            limit: "{{limit}}",
+            xsec_token: "{{xsec_token}}"
+          });
+        })();
+
+followers:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('userFollowers', {
+            user_id: "{{user_id}}",
+            limit: "{{limit}}"
+          });
+        })();
+
+following:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('userFollowing', {
+            user_id: "{{user_id}}",
+            limit: "{{limit}}"
+          });
+        })();

@@ -1,0 +1,33 @@
+feed:
+  steps:
+    - action: navigate
+      url: "https://creator.xiaohongshu.com/publish/publish"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('postFeed', {
+            title: "{{title}}",
+            text: "{{text}}",
+            media: "{{media}}",
+            cover: "{{cover}}"
+          });
+        })();
+
+repost:
+  steps:
+    - action: navigate
+      url: "https://www.xiaohongshu.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseXiaohongshuSiteBridge.call('postRepost', {
+            id: "{{id}}",
+            text: "{{text}}"
+          });
+        })();

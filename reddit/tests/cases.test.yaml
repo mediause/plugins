@@ -1,0 +1,25 @@
+- id: reddit_get_hot_manifest_case
+  description: "Reddit plugin exposes get hot"
+  capability: get
+  action: hot
+  params:
+    limit: 5
+  expect:
+    success: true
+
+- id: reddit_account_health_manifest_case
+  description: "Reddit plugin exposes account health"
+  capability: account
+  action: health
+  params: {}
+  expect:
+    success: true
+
+- id: reddit_search_posts_manifest_case
+  description: "Reddit plugin exposes post search"
+  capability: search
+  action: posts
+  params:
+    query: "rust"
+  expect:
+    success: true

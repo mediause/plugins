@@ -1,0 +1,10 @@
+generate:
+  steps:
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseChatgptSiteBridge.call('imageGenerate', {
+            prompt: "{{prompt}}",
+            timeout: Number("{{timeout}}") || 240
+          });
+        })();

@@ -1,0 +1,18 @@
+articles:
+  steps:
+    - action: navigate
+      url: "https://weixin.sogou.com/weixin?type=2&ie=utf8&query={{query}}&page={{page}}"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseWeixin.searchArticles({
+            query: "{{query}}",
+            page: Number("{{page}}") || 1,
+            limit: Number("{{limit}}") || 10
+          });
+        })();

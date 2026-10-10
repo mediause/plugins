@@ -1,0 +1,118 @@
+name: hackernews
+id: plugin.hackernews
+platform: hackernews
+version: "1.0.0"
+description: "Hacker News site plugin"
+
+auth:
+  login_url: "https://news.ycombinator.com"
+  login_entries:
+    default: "https://news.ycombinator.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/hackernews.helpers.js
+  - scripts/hackernews.site.js
+  - scripts/hackernews.bootstrap.js
+
+commands:
+  get:
+    top:
+      workflow: workflows/get.yaml
+      operation: top
+      description: "Hacker News top stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+    best:
+      workflow: workflows/get.yaml
+      operation: best
+      description: "Hacker News best stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+    ask:
+      workflow: workflows/get.yaml
+      operation: ask
+      description: "Hacker News Ask HN posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+    new:
+      workflow: workflows/get.yaml
+      operation: new
+      description: "Hacker News newest stories"
+      params:
+        - name: limit
+          type: number
+          required: false
+    show:
+      workflow: workflows/get.yaml
+      operation: show
+      description: "Hacker News Show HN posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+    jobs:
+      workflow: workflows/get.yaml
+      operation: jobs
+      description: "Hacker News job postings"
+      params:
+        - name: limit
+          type: number
+          required: false
+
+  search:
+    stories:
+      workflow: workflows/search.yaml
+      operation: stories
+      description: "Search Hacker News stories"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+        - name: sort
+          type: string
+          required: false
+
+  read:
+    item:
+      workflow: workflows/read.yaml
+      operation: item
+      description: "Read a Hacker News story and its comment tree"
+      params:
+        - name: id
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+        - name: depth
+          type: number
+          required: false
+        - name: replies
+          type: number
+          required: false
+        - name: max_length
+          type: number
+          required: false
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "Hacker News user profile"
+      params:
+        - name: username
+          type: string
+          required: true

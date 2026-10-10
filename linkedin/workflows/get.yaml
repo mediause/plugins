@@ -1,0 +1,103 @@
+timeline:
+  steps:
+    - action: navigate
+      url: "https://www.linkedin.com/feed/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getTimeline', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+inbox:
+  steps:
+    - action: navigate
+      url: "https://www.linkedin.com/messaging/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getInbox', {
+            limit: Number("{{limit}}") || 20,
+            unread_only: "{{unread_only}}" === "true"
+          });
+        })();
+
+job_detail:
+  steps:
+    - action: navigate
+      url: "{{job_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getJobDetail', {
+            job_url: "{{job_url}}"
+          });
+        })();
+
+jobs_preferences:
+  steps:
+    - action: navigate
+      url: "https://www.linkedin.com/jobs/preferences/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getJobsPreferences', {});
+        })();
+
+sent_invitations:
+  steps:
+    - action: navigate
+      url: "https://www.linkedin.com/mynetwork/invitation-manager/sent/"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getSentInvitations', {});
+        })();
+
+services_read:
+  steps:
+    - action: navigate
+      url: "{{services_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getServicesRead', {
+            profile_url: "{{profile_url}}",
+            services_url: "{{services_url}}"
+          });
+        })();
+
+thread_snapshot:
+  steps:
+    - action: navigate
+      url: "{{thread_url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 12000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseLinkedinSiteBridge.call('getThreadSnapshot', {
+            thread_url: "{{thread_url}}",
+            max_scrolls: Number("{{max_scrolls}}") || 30
+          });
+        })();

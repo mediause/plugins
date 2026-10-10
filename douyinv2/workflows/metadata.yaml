@@ -1,0 +1,61 @@
+activities:
+  steps:
+    - action: navigate
+      url: "https://creator.douyin.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('metadataActivities', {});
+        })();
+
+collections:
+  steps:
+    - action: navigate
+      url: "https://creator.douyin.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('metadataCollections', {
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+hashtag:
+  steps:
+    - action: navigate
+      url: "https://creator.douyin.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('metadataHashtag', {
+            action: "{{action}}",
+            keyword: "{{keyword}}",
+            cover: "{{cover}}",
+            limit: Number("{{limit}}") || 10
+          });
+        })();
+
+location:
+  steps:
+    - action: navigate
+      url: "https://creator.douyin.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('metadataLocation', {
+            query: "{{query}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

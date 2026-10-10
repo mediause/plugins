@@ -1,0 +1,15 @@
+posts:
+  steps:
+    - action: navigate
+      url: "https://medium.com/@{{username}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseMediumSiteBridge.call('userPosts', {
+            username: "{{username}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

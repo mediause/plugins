@@ -1,0 +1,254 @@
+name: reddit
+id: plugin.reddit
+platform: reddit
+version: "1.0.0"
+description: "Reddit site plugin"
+
+auth:
+  login_url: "https://www.reddit.com"
+  login_entries:
+    default: "https://www.reddit.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/reddit.helpers.js
+  - scripts/reddit.site.js
+  - scripts/reddit.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check Reddit account health"
+      params: []
+
+  get:
+    home:
+      workflow: workflows/get.yaml
+      operation: home
+      description: "Get personalized Reddit home feed (requires login)"
+      params:
+        - name: limit
+          type: number
+          required: false
+    hot:
+      workflow: workflows/get.yaml
+      operation: hot
+      description: "Get hot Reddit posts"
+      params:
+        - name: subreddit
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+    popular:
+      workflow: workflows/get.yaml
+      operation: popular
+      description: "Reddit Popular posts (/r/popular)"
+      params:
+        - name: limit
+          type: number
+          required: false
+    frontpage:
+      workflow: workflows/get.yaml
+      operation: frontpage
+      description: "Reddit Frontpage / r/all"
+      params:
+        - name: limit
+          type: number
+          required: false
+    subreddit:
+      workflow: workflows/get.yaml
+      operation: subreddit
+      description: "Get posts from a specific Subreddit"
+      params:
+        - name: name
+          type: string
+          required: true
+        - name: sort
+          type: string
+          required: false
+        - name: time
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+    subreddit-info:
+      workflow: workflows/get.yaml
+      operation: subreddit_info
+      description: "Show metadata for a Reddit subreddit"
+      params:
+        - name: name
+          type: string
+          required: true
+
+  search:
+    posts:
+      workflow: workflows/search.yaml
+      operation: posts
+      description: "Search Reddit Posts"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: subreddit
+          type: string
+          required: false
+        - name: sort
+          type: string
+          required: false
+        - name: time
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+
+  read:
+    item:
+      workflow: workflows/read.yaml
+      operation: item
+      description: "Read a Reddit post and its comments"
+      params:
+        - name: post_id
+          type: string
+          required: true
+        - name: sort
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+        - name: depth
+          type: number
+          required: false
+        - name: replies
+          type: number
+          required: false
+        - name: max_length
+          type: number
+          required: false
+
+  user:
+    profile:
+      workflow: workflows/user.yaml
+      operation: profile
+      description: "View a Reddit user profile"
+      params:
+        - name: username
+          type: string
+          required: false
+        - name: me
+          type: boolean
+          required: false
+    posts:
+      workflow: workflows/user.yaml
+      operation: posts
+      description: "View a Reddit user's submitted posts"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+    comments:
+      workflow: workflows/user.yaml
+      operation: comments
+      description: "View a Reddit user's comment history"
+      params:
+        - name: username
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+
+  collection:
+    subscribed:
+      workflow: workflows/collection.yaml
+      operation: subscribed
+      description: "List subreddits you are subscribed to"
+      params:
+        - name: limit
+          type: number
+          required: false
+    saved:
+      workflow: workflows/collection.yaml
+      operation: saved
+      description: "Browse your saved Reddit posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+    upvoted:
+      workflow: workflows/collection.yaml
+      operation: upvoted
+      description: "Browse your upvoted Reddit posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+
+  engage:
+    comment:
+      workflow: workflows/engage.yaml
+      operation: comment
+      description: "Post a comment on a Reddit post"
+      params:
+        - name: post_id
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+    reply:
+      workflow: workflows/engage.yaml
+      operation: reply
+      description: "Reply to a Reddit comment"
+      params:
+        - name: comment_id
+          type: string
+          required: true
+        - name: text
+          type: string
+          required: true
+    save:
+      workflow: workflows/engage.yaml
+      operation: save
+      description: "Save or unsave a Reddit post"
+      params:
+        - name: post_id
+          type: string
+          required: true
+        - name: undo
+          type: boolean
+          required: false
+    upvote:
+      workflow: workflows/engage.yaml
+      operation: upvote
+      description: "Upvote or downvote a Reddit post"
+      params:
+        - name: post_id
+          type: string
+          required: true
+        - name: direction
+          type: string
+          required: false
+    subscribe:
+      workflow: workflows/engage.yaml
+      operation: subscribe
+      description: "Subscribe or unsubscribe to a subreddit"
+      params:
+        - name: subreddit
+          type: string
+          required: true
+        - name: undo
+          type: boolean
+          required: false

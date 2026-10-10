@@ -1,0 +1,51 @@
+timeline:
+  steps:
+    - action: navigate
+      url: "https://x.com/home"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.getTimeline({
+            type: "{{type}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+bookmarks:
+  steps:
+    - action: navigate
+      url: "https://x.com/i/bookmarks"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.getBookmarks({
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+notifications:
+  steps:
+    - action: navigate
+      url: "https://x.com/notifications"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || window.location.pathname.indexOf('/i/flow/login') === 0"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.getNotifications({
+            limit: Number("{{limit}}") || 20
+          });
+        })();

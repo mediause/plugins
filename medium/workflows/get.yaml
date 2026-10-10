@@ -1,0 +1,31 @@
+feed:
+  steps:
+    - action: navigate
+      url: "https://medium.com/tag/{{topic}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseMediumSiteBridge.call('getFeed', {
+            topic: "{{topic}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();
+
+tag:
+  steps:
+    - action: navigate
+      url: "https://medium.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseMediumSiteBridge.call('getTag', {
+            tag: "{{tag}}",
+            limit: Number("{{limit}}") || 20
+          });
+        })();

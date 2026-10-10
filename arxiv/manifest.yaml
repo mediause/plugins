@@ -1,0 +1,77 @@
+name: arxiv
+id: plugin.arxiv
+platform: arxiv
+version: "1.0.0"
+description: "arXiv site plugin"
+
+auth:
+  login_url: "https://export.arxiv.org/"
+  login_entries:
+    default: "https://export.arxiv.org/"
+  default_account_id: "guest"
+  ready_timeout_ms: 1000
+  handshake_timeout_ms: 1000
+
+shared_libs:
+  - scripts/site.js
+  - scripts/arxiv.helpers.js
+  - scripts/arxiv.site.js
+  - scripts/arxiv.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check arXiv plugin health"
+      params: []
+
+  search:
+    papers:
+      workflow: workflows/search.yaml
+      operation: papers
+      description: "Search arXiv papers by keyword"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+  get:
+    paper:
+      workflow: workflows/get.yaml
+      operation: paper
+      description: "Get arXiv paper details by ID"
+      params:
+        - name: id
+          type: string
+          required: true
+    recent:
+      workflow: workflows/get.yaml
+      operation: recent
+      description: "List recent arXiv submissions in a category"
+      params:
+        - name: category
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 10
+
+  user:
+    author:
+      workflow: workflows/user.yaml
+      operation: author
+      description: "List arXiv papers by author"
+      params:
+        - name: author
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20

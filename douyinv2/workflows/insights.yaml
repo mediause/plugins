@@ -1,0 +1,14 @@
+stats:
+  steps:
+    - action: navigate
+      url: "https://creator.douyin.com"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseDouyinV2SiteBridge.call('insightsStats', {
+            aweme_id: "{{aweme_id}}"
+          });
+        })();

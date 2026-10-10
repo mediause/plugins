@@ -1,0 +1,269 @@
+name: linkedin
+id: plugin.linkedin
+platform: linkedin
+version: "1.0.0"
+description: "LinkedIn site plugin"
+
+auth:
+  login_url: "https://www.linkedin.com/login"
+  login_entries:
+    default: "https://www.linkedin.com/login"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/linkedin.helpers.js
+  - scripts/linkedin.site.js
+  - scripts/linkedin.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Check LinkedIn account health for a logged-in account"
+      params: []
+
+  search:
+    jobs:
+      workflow: workflows/search.yaml
+      operation: jobs
+      description: "Search LinkedIn jobs"
+      params:
+        - name: query
+          type: string
+          required: true
+        - name: location
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    people:
+      workflow: workflows/search.yaml
+      operation: people
+      description: "Search LinkedIn people"
+      params:
+        - name: keywords
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    salesnav:
+      workflow: workflows/search.yaml
+      operation: salesnav
+      description: "Search Sales Navigator leads"
+      params:
+        - name: keywords
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 25
+
+  get:
+    timeline:
+      workflow: workflows/get.yaml
+      operation: timeline
+      description: "Read LinkedIn home timeline posts"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+    inbox:
+      workflow: workflows/get.yaml
+      operation: inbox
+      description: "List LinkedIn inbox conversations"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 20
+        - name: unread_only
+          type: boolean
+          required: false
+          default: false
+    job-detail:
+      workflow: workflows/get.yaml
+      operation: job_detail
+      description: "Read a LinkedIn job detail page"
+      params:
+        - name: job_url
+          type: string
+          required: true
+    jobs-preferences:
+      workflow: workflows/get.yaml
+      operation: jobs_preferences
+      description: "Read visible LinkedIn jobs preferences"
+      params: []
+    sent-invitations:
+      workflow: workflows/get.yaml
+      operation: sent_invitations
+      description: "List pending sent invitations"
+      params: []
+    services-read:
+      workflow: workflows/get.yaml
+      operation: services_read
+      description: "Read LinkedIn services page details"
+      params:
+        - name: profile_url
+          type: string
+          required: false
+        - name: services_url
+          type: string
+          required: false
+    thread-snapshot:
+      workflow: workflows/get.yaml
+      operation: thread_snapshot
+      description: "Return a thread context snapshot"
+      params:
+        - name: thread_url
+          type: string
+          required: true
+        - name: max_scrolls
+          type: number
+          required: false
+          default: 30
+
+  profile:
+    read:
+      workflow: workflows/profile.yaml
+      operation: read
+      description: "Read visible profile sections"
+      params:
+        - name: profile_url
+          type: string
+          required: false
+    experience:
+      workflow: workflows/profile.yaml
+      operation: experience
+      description: "Read visible profile experience entries"
+      params:
+        - name: profile_url
+          type: string
+          required: false
+    projects:
+      workflow: workflows/profile.yaml
+      operation: projects
+      description: "Read visible profile projects"
+      params:
+        - name: profile_url
+          type: string
+          required: false
+    analytics:
+      workflow: workflows/profile.yaml
+      operation: analytics
+      description: "Read profile dashboard analytics"
+      params:
+        - name: profile_url
+          type: string
+          required: false
+
+  post:
+    analytics:
+      workflow: workflows/post.yaml
+      operation: analytics
+      description: "Summarize visible profile post counters"
+      params:
+        - name: profile_url
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
+          default: 20
+
+  engage:
+    connect:
+      workflow: workflows/engage.yaml
+      operation: connect
+      description: "Safely verify and optionally send a connection request"
+      params:
+        - name: profile_url
+          type: string
+          required: true
+        - name: expected_name
+          type: string
+          required: true
+        - name: note
+          type: string
+          required: false
+        - name: send
+          type: boolean
+          required: false
+          default: false
+
+  message:
+    safe-send:
+      workflow: workflows/message.yaml
+      operation: safe_send
+      description: "Safely verify and optionally send a thread message"
+      params:
+        - name: thread_url
+          type: string
+          required: true
+        - name: expected_name
+          type: string
+          required: true
+        - name: message
+          type: string
+          required: true
+        - name: expected_last_text
+          type: string
+          required: false
+        - name: send
+          type: boolean
+          required: false
+          default: false
+
+  salesnav:
+    inbox:
+      workflow: workflows/salesnav.yaml
+      operation: inbox
+      description: "List Sales Navigator conversations"
+      params:
+        - name: limit
+          type: number
+          required: false
+          default: 25
+        - name: unread_only
+          type: boolean
+          required: false
+          default: false
+    message:
+      workflow: workflows/salesnav.yaml
+      operation: message
+      description: "Send or dry-run a Sales Navigator InMail"
+      params:
+        - name: recipient
+          type: string
+          required: true
+        - name: subject
+          type: string
+          required: true
+        - name: body
+          type: string
+          required: true
+        - name: send
+          type: boolean
+          required: false
+          default: false
+    thread:
+      workflow: workflows/salesnav.yaml
+      operation: thread
+      description: "Read a Sales Navigator thread history"
+      params:
+        - name: thread_or_recipient
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+          default: 50

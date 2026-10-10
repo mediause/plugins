@@ -1,0 +1,36 @@
+accept:
+  steps:
+    - action: navigate
+      url: "https://x.com/messages/requests"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || !!document.querySelector('main')"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.messageAccept({
+            query: "{{query}}",
+            max: Number("{{max}}") || 20
+          });
+        })();
+
+reply:
+  steps:
+    - action: navigate
+      url: "https://x.com/messages"
+
+    - action: waitforfunction
+      expression: "!!document.querySelector('[data-testid=\"primaryColumn\"]') || !!document.querySelector('main')"
+      timeoutMs: 20000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTwitter.messageReply({
+            text: "{{text}}",
+            max: Number("{{max}}") || 20,
+            skip_replied: "{{skip_replied}}" !== "false"
+          });
+        })();

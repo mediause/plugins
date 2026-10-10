@@ -1,0 +1,20 @@
+create_draft:
+  steps:
+    - action: navigate
+      url: "https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=77&lang=zh_CN"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseWeixin.createDraft({
+            title: "{{title}}",
+            content: "{{content}}",
+            author: "{{author}}",
+            summary: "{{summary}}",
+            cover_image: "{{cover_image}}"
+          });
+        })();

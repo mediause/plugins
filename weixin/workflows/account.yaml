@@ -1,0 +1,14 @@
+health:
+  steps:
+    - action: navigate
+      url: "https://mp.weixin.qq.com"
+
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 15000
+
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseWeixin.accountHealth({});
+        })();

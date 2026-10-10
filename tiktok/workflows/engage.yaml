@@ -1,0 +1,105 @@
+follow:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/@{{username}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageFollow', {
+            username: "{{username}}"
+          });
+        })();
+
+unfollow:
+  steps:
+    - action: navigate
+      url: "https://www.tiktok.com/@{{username}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageUnfollow', {
+            username: "{{username}}"
+          });
+        })();
+
+like:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageLike', {
+            url: "{{url}}"
+          });
+        })();
+
+unlike:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageUnlike', {
+            url: "{{url}}"
+          });
+        })();
+
+save:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageSave', {
+            url: "{{url}}"
+          });
+        })();
+
+unsave:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageUnsave', {
+            url: "{{url}}"
+          });
+        })();
+
+comment:
+  steps:
+    - action: navigate
+      url: "{{url}}"
+    - action: waitforfunction
+      expression: "document.readyState === 'complete' || document.readyState === 'interactive'"
+      timeoutMs: 20000
+    - action: evaluate
+      script: |
+        (function () {
+          return window.__mediauseTiktokSiteBridge.call('engageComment', {
+            url: "{{url}}",
+            text: "{{text}}"
+          });
+        })();

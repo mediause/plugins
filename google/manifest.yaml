@@ -1,0 +1,83 @@
+name: google
+id: plugin.google
+platform: google
+version: "1.0.0"
+description: "Google search and discovery plugin"
+
+auth:
+  login_url: "https://www.google.com"
+  login_entries:
+    default: "https://www.google.com"
+  default_account_id: "guest"
+  ready_timeout_ms: 1500
+  handshake_timeout_ms: 1500
+
+shared_libs:
+  - scripts/site.js
+  - scripts/google.helpers.js
+  - scripts/google.site.js
+  - scripts/google.bootstrap.js
+
+commands:
+  account:
+    health:
+      workflow: workflows/account.yaml
+      operation: health
+      description: "Get Google plugin account health"
+
+  search:
+    web:
+      workflow: workflows/search.yaml
+      operation: web
+      description: "Search Google web results"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+        - name: lang
+          type: string
+          required: false
+    suggest:
+      workflow: workflows/search.yaml
+      operation: suggest
+      description: "Get Google query suggestions"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: lang
+          type: string
+          required: false
+
+  get:
+    news:
+      workflow: workflows/get.yaml
+      operation: news
+      description: "Get Google News headlines"
+      params:
+        - name: keyword
+          type: string
+          required: true
+        - name: limit
+          type: number
+          required: false
+        - name: lang
+          type: string
+          required: false
+        - name: region
+          type: string
+          required: false
+    trends:
+      workflow: workflows/get.yaml
+      operation: trends
+      description: "Get Google Trends daily searches"
+      params:
+        - name: region
+          type: string
+          required: false
+        - name: limit
+          type: number
+          required: false
